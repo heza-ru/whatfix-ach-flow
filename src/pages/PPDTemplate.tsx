@@ -419,17 +419,34 @@ const PPDTemplatePage = () => {
               </div>
               
               <div className="flex justify-center mt-6 space-x-4">
+                <Button 
+                  variant="outline" 
+                  className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[120px]"
+                  onClick={() => setIsSelectRecipientOpen(true)}
+                >
+                  Select Recipients
+                </Button>
                 <Button variant="outline" className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[120px]">
                   Cancel
                 </Button>
-                <Button 
-                  type="submit"
-                  onClick={() => form.handleSubmit(handleSubmitPPDForm)()}
-                  className="bg-blue-600 text-white hover:bg-blue-700 min-w-[120px]"
-                >
-                  Continue
-                  <ArrowRight size={16} className="ml-1" />
-                </Button>
+                <div className="flex space-x-2">
+                  <Button 
+                    onClick={handleSaveIncomplete}
+                    variant="outline" 
+                    className="bg-white text-gray-700 border-gray-300 min-w-[120px]"
+                  >
+                    <Save size={16} className="mr-1" />
+                    Save Incomplete
+                  </Button>
+                  <Button 
+                    type="submit"
+                    onClick={() => form.handleSubmit(handleSubmitPPDForm)()}
+                    className="bg-blue-600 text-white hover:bg-blue-700 min-w-[120px]"
+                  >
+                    Continue
+                    <ArrowRight size={16} className="ml-1" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
