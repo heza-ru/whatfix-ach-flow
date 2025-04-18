@@ -91,7 +91,7 @@ const Index = () => {
       {showTour && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-up" data-testid="tour-modal">
           <div className="bg-white p-6 rounded-lg max-w-md">
-            <h2 className="text-xl font-bold mb-4">Welcome to Whatfix Bank!</h2>
+            <h2 className="text-xl font-bold mb-4">Welcome to this Portal!</h2>
             <p className="mb-4">Let us guide you through the main features of your banking portal.</p>
             <p className="mb-4">This tour will show you how to:</p>
             <ul className="list-disc pl-5 mb-4 space-y-1">
@@ -99,6 +99,7 @@ const Index = () => {
               <li>Set up payment templates</li>
               <li>Manage recipient information</li>
               <li>Configure ACH limits and approvals</li>
+              <li>And many more....</li>
             </ul>
             <div className="flex justify-end">
               <Button onClick={() => setShowTour(false)}>
