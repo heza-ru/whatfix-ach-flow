@@ -59,7 +59,7 @@ export const Header = () => {
         <div className="flex items-center">
           <div className="text-right mr-4">
             <div className="text-sm text-gray-500">Welcome,</div>
-            <div className="font-semibold">Sanjna C</div>
+            <div className="font-semibold">R Owaki</div>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
