@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, FileUp, Plus, Check, CheckCheck, Search, ChevronDown, Save } from 'lucide-react';
+import { FileText, FileUp, Plus, Check, CheckCheck, Search, ChevronDown, Save, ArrowRight } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Recipient } from '@/types/recipient';
 import { PPDTemplate } from '@/types/ppdTemplate';
@@ -427,7 +427,8 @@ const PPDTemplatePage = () => {
                   onClick={() => form.handleSubmit(handleSubmitPPDForm)()}
                   className="bg-blue-600 text-white hover:bg-blue-700 min-w-[120px]"
                 >
-                  Submit
+                  Continue
+                  <ArrowRight size={16} className="ml-1" />
                 </Button>
               </div>
             </div>
