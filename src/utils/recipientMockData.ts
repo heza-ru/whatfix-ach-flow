@@ -12,7 +12,8 @@ export const mockRecipients: Recipient[] = [
     accountType: 'Savings',
     amount: 0,
     crdr: 'Credit',
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '2',
@@ -22,7 +23,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '123456789',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '3',
@@ -32,7 +34,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '123456789',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '4',
@@ -42,7 +45,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '0922202201',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '5',
@@ -52,7 +56,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '221133',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '6',
@@ -62,7 +67,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '918273645',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '7',
@@ -72,7 +78,8 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '252577',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   },
   {
     id: '8',
@@ -82,6 +89,7 @@ export const mockRecipients: Recipient[] = [
     accountNumber: '123456789',
     accountType: 'Checking',
     amount: 0,
-    status: 'Active'
+    status: 'Active',
+    achEnabled: true
   }
 ];

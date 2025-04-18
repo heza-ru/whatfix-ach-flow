@@ -13,6 +13,7 @@ import QuickEntry from "./pages/QuickEntry";
 import QuickEntryPreview from "./pages/QuickEntryPreview";
 import PaymentApproval from "./pages/PaymentApproval";
 import PPDTemplate from "./pages/PPDTemplate";
+import MasterRecipientList from "./pages/MasterRecipientList";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
         <Route path="/" element={<Index />} />
         <Route path="/templates" element={<Templates />} />
         <Route path="/recipients" element={<Recipients />} />
+        <Route path="/recipients/master" element={<MasterRecipientList />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/payments/new" element={<Payments />} />
         <Route path="/payments/quick-entry" element={<QuickEntry />} />
