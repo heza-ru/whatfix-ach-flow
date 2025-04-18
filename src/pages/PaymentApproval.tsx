@@ -37,7 +37,7 @@ const PaymentApproval = () => {
     // Update the statuses of selected payments
     const updatedPayments = payments.map(payment => {
       if (selectedPaymentIds.includes(payment.id)) {
-        return { ...payment, status: 'Approved' as const };
+        return { ...payment, status: 'approved' as const };
       }
       return payment;
     });
@@ -61,7 +61,7 @@ const PaymentApproval = () => {
     // Update the statuses of selected payments
     const updatedPayments = payments.map(payment => {
       if (selectedPaymentIds.includes(payment.id)) {
-        return { ...payment, status: 'Rejected' as const };
+        return { ...payment, status: 'rejected' as const };
       }
       return payment;
     });
@@ -90,7 +90,7 @@ const PaymentApproval = () => {
     // Mark selected payments as reversed
     const updatedPayments = payments.map(payment => {
       if (selectedPaymentIds.includes(payment.id)) {
-        return { ...payment, status: 'Reversed' as const };
+        return { ...payment, status: 'reversed' as const };
       }
       return payment;
     });
