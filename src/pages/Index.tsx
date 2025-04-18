@@ -137,23 +137,27 @@ const Index = () => {
               <CardDescription>Last 7 days payment volume</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]">
-                <ChartContainer config={{}}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={paymentTrendData}>
-                      <defs>
-                        <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#B3D458" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#B3D458" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area type="monotone" dataKey="amount" stroke="#B3D458" fillOpacity={1} fill="url(#colorAmount)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={paymentTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#B3D458" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#B3D458" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip contentStyle={{ background: "#fff", border: "1px solid #f0f0f0", borderRadius: "4px" }} />
+                    <Area 
+                      type="monotone" 
+                      dataKey="amount" 
+                      stroke="#B3D458" 
+                      fillOpacity={1} 
+                      fill="url(#colorAmount)" 
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -168,9 +172,9 @@ const Index = () => {
               <CardDescription>Current payment distribution</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px]">
+              <div className="h-[260px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <RechartPieChart>
+                  <RechartPieChart margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
                     <Pie
                       data={paymentStatusData}
                       innerRadius={60}
@@ -185,7 +189,7 @@ const Index = () => {
                     <Tooltip />
                   </RechartPieChart>
                 </ResponsiveContainer>
-                <div className="flex justify-center gap-4 mt-4">
+                <div className="flex justify-center gap-4 mt-2">
                   {paymentStatusData.map((entry, index) => (
                     <div key={index} className="flex items-center">
                       <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
@@ -208,42 +212,44 @@ const Index = () => {
                 </Link>
               </CardHeader>
               <CardContent>
-                <table className="w-full bank-table">
-                  <thead>
-                    <tr>
-                      <th>Payment ID</th>
-                      <th>Recipient</th>
-                      <th>Type</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recentPayments.map(payment => {
-                      const recipient = mockRecipients.find(r => r.id === payment.recipientId);
-                      return (
-                        <tr key={payment.id}>
-                          <td>{payment.id}</td>
-                          <td>{recipient?.name || 'Unknown'}</td>
-                          <td>{payment.type}</td>
-                          <td>${payment.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                          <td>
-                            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                              ${payment.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                                payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                payment.status === 'complete' ? 'bg-blue-100 text-blue-800' : 
-                                'bg-gray-100 text-gray-800'}`
-                            }>
-                              {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                            </span>
-                          </td>
-                          <td>{payment.effectiveDate}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                  <table className="w-full bank-table">
+                    <thead>
+                      <tr>
+                        <th>Payment ID</th>
+                        <th>Recipient</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recentPayments.map(payment => {
+                        const recipient = mockRecipients.find(r => r.id === payment.recipientId);
+                        return (
+                          <tr key={payment.id}>
+                            <td>{payment.id}</td>
+                            <td>{recipient?.name || 'Unknown'}</td>
+                            <td>{payment.type}</td>
+                            <td>${payment.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            <td>
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                ${payment.status === 'approved' ? 'bg-green-100 text-green-800' : 
+                                  payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                  payment.status === 'complete' ? 'bg-blue-100 text-blue-800' : 
+                                  'bg-gray-100 text-gray-800'}`
+                              }>
+                                {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                              </span>
+                            </td>
+                            <td>{payment.effectiveDate}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -261,13 +267,13 @@ const Index = () => {
                     New Payment
                   </Button>
                 </Link>
-                <Link to="/templates/new">
+                <Link to="/templates">
                   <Button variant="outline" className="w-full justify-start">
                     <CreditCard className="mr-2" size={16} />
                     Create Template
                   </Button>
                 </Link>
-                <Link to="/recipients/new">
+                <Link to="/recipients">
                   <Button variant="outline" className="w-full justify-start">
                     <Users className="mr-2" size={16} />
                     Add Recipient
@@ -285,7 +291,7 @@ const Index = () => {
                     Transaction Reports
                   </Button>
                 </Link>
-                <Link to="/settings/limits">
+                <Link to="/settings">
                   <Button variant="outline" className="w-full justify-start">
                     <Settings className="mr-2" size={16} />
                     Manage Limits
