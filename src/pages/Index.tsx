@@ -1,34 +1,21 @@
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { 
   DollarSign, CreditCard, Users, Settings, Clock, 
-  CheckCircle, XCircle, AlertCircle, PieChart,
-  TrendingUp, Activity, FileText
+  CheckCircle, Activity, FileText
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Navigation from '@/components/layout/Navigation';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart';
-import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, PieChart as RechartPieChart, Pie, Cell, Tooltip } from 'recharts';
+import PaymentTrendsChart from '@/components/dashboard/PaymentTrendsChart';
+import PaymentStatusChart from '@/components/dashboard/PaymentStatusChart';
+import StatsCards from '@/components/dashboard/StatsCards';
+import RecentPayments from '@/components/dashboard/RecentPayments';
+import QuickActions from '@/components/dashboard/QuickActions';
 import { mockPayments, mockTemplates, mockRecipients } from '@/utils/mockData';
 
 const Index = () => {
   const [showTour, setShowTour] = useState(false);
-
-  const startTour = () => {
-    setShowTour(true);
-  };
 
   const pendingPayments = mockPayments.filter(p => p.status === 'pending').length;
   const completedPayments = mockPayments.filter(p => p.status === 'complete').length;
@@ -51,7 +38,21 @@ const Index = () => {
     { date: '2025-04-18', amount: 22000 },
   ];
 
-  const recentPayments = mockPayments.slice(0, 5);
+  const statsData = [
+    { icon: <DollarSign className="mr-2 text-bank-primary" size={20} />, title: "Pending Payments", value: pendingPayments, subtitle: "Awaiting approval", testId: "pending-payments" },
+    { icon: <CheckCircle className="mr-2 text-green-500" size={20} />, title: "Completed Payments", value: completedPayments, subtitle: "Successfully processed", testId: "completed-payments" },
+    { icon: <CreditCard className="mr-2 text-blue-500" size={20} />, title: "Templates", value: totalTemplates, subtitle: "Saved templates", testId: "templates" },
+    { icon: <Users className="mr-2 text-purple-500" size={20} />, title: "Recipients", value: totalRecipients, subtitle: "Active recipients", testId: "recipients" }
+  ];
+
+  const quickActionItems = [
+    { to: "/payments/new", icon: <DollarSign className="mr-2" size={16} />, text: "New Payment", primary: true, testId: "new-payment" },
+    { to: "/templates", icon: <CreditCard className="mr-2" size={16} />, text: "Create Template", testId: "create-template" },
+    { to: "/recipients", icon: <Users className="mr-2" size={16} />, text: "Add Recipient", testId: "add-recipient" },
+    { to: "/payments/history", icon: <Clock className="mr-2" size={16} />, text: "Payment History", testId: "payment-history" },
+    { to: "/reports/transactions", icon: <Activity className="mr-2" size={16} />, text: "Transaction Reports", testId: "transaction-reports" },
+    { to: "/settings", icon: <Settings className="mr-2" size={16} />, text: "Manage Limits", testId: "manage-limits" }
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100" data-testid="dashboard-container">
@@ -62,193 +63,27 @@ const Index = () => {
         <div className="flex items-center justify-between mb-6 animate-fade-up" data-testid="dashboard-header">
           <h1 className="text-2xl font-medium" data-testid="dashboard-title">Dashboard</h1>
           <Button 
-            onClick={startTour} 
+            onClick={() => setShowTour(true)} 
             className="bg-bank-primary hover:bg-bank-primary/90 hover-lift"
             data-testid="tour-button"
           >
             Take a Tour
           </Button>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" data-testid="stats-grid">
-          {[
-            { icon: <DollarSign className="mr-2 text-bank-primary" size={20} />, title: "Pending Payments", value: pendingPayments, subtitle: "Awaiting approval", testId: "pending-payments" },
-            { icon: <CheckCircle className="mr-2 text-green-500" size={20} />, title: "Completed Payments", value: completedPayments, subtitle: "Successfully processed", testId: "completed-payments" },
-            { icon: <CreditCard className="mr-2 text-blue-500" size={20} />, title: "Templates", value: totalTemplates, subtitle: "Saved templates", testId: "templates" },
-            { icon: <Users className="mr-2 text-purple-500" size={20} />, title: "Recipients", value: totalRecipients, subtitle: "Active recipients", testId: "recipients" }
-          ].map((item, index) => (
-            <Card key={index} className="card-transition animate-fade-up" style={{ animationDelay: `${index * 100}ms` }} data-testid={`stat-card-${item.testId}`}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg flex items-center">
-                  {item.icon}
-                  {item.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold">{item.value}</div>
-                <div className="text-sm text-gray-500">{item.subtitle}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+
+        <StatsCards stats={statsData} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6" data-testid="charts-grid">
-          <Card className="lg:col-span-2 card-transition animate-slide-in" data-testid="payment-trends">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <TrendingUp className="mr-2" size={20} />
-                Payment Trends
-              </CardTitle>
-              <CardDescription>Last 7 days payment volume</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={paymentTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#B3D458" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#B3D458" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip contentStyle={{ background: "#fff", border: "1px solid #f0f0f0", borderRadius: "4px" }} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="amount" 
-                      stroke="#B3D458" 
-                      fillOpacity={1} 
-                      fill="url(#colorAmount)" 
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="card-transition animate-slide-in" style={{ animationDelay: '200ms' }} data-testid="payment-status">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <PieChart className="mr-2" size={20} />
-                Payment Status
-              </CardTitle>
-              <CardDescription>Current payment distribution</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[260px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartPieChart margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
-                    <Pie
-                      data={paymentStatusData}
-                      innerRadius={60}
-                      outerRadius={80}
-                      paddingAngle={5}
-                      dataKey="value"
-                    >
-                      {paymentStatusData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </RechartPieChart>
-                </ResponsiveContainer>
-                <div className="flex justify-center gap-4 mt-2">
-                  {paymentStatusData.map((entry, index) => (
-                    <div key={index} className="flex items-center">
-                      <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
-                      <span className="text-sm text-gray-600">{entry.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <PaymentTrendsChart data={paymentTrendData} />
+          <PaymentStatusChart data={paymentStatusData} />
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" data-testid="tables-grid">
           <div className="lg:col-span-2">
-            <Card className="card-transition animate-fade-up" data-testid="recent-payments">
-              <CardHeader className="pb-2 flex flex-row items-center justify-between">
-                <CardTitle>Recent Payments</CardTitle>
-                <Link to="/payments/history" className="text-sm text-bank-primary">
-                  View All
-                </Link>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full bank-table">
-                    <thead>
-                      <tr>
-                        <th>Payment ID</th>
-                        <th>Recipient</th>
-                        <th>Type</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentPayments.map(payment => {
-                        const recipient = mockRecipients.find(r => r.id === payment.recipientId);
-                        return (
-                          <tr key={payment.id}>
-                            <td>{payment.id}</td>
-                            <td>{recipient?.name || 'Unknown'}</td>
-                            <td>{payment.type}</td>
-                            <td>${payment.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                            <td>
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                                ${payment.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                                  payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                  payment.status === 'complete' ? 'bg-blue-100 text-blue-800' : 
-                                  'bg-gray-100 text-gray-800'}`
-                              }>
-                                {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                              </span>
-                            </td>
-                            <td>{payment.effectiveDate}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
+            <RecentPayments payments={mockPayments.slice(0, 5)} recipients={mockRecipients} />
           </div>
-          
           <div>
-            <Card className="card-transition animate-fade-up" style={{ animationDelay: '300ms' }} data-testid="quick-actions">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common tasks you can perform</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {[
-                  { to: "/payments/new", icon: <DollarSign className="mr-2" size={16} />, text: "New Payment", primary: true, testId: "new-payment" },
-                  { to: "/templates", icon: <CreditCard className="mr-2" size={16} />, text: "Create Template", testId: "create-template" },
-                  { to: "/recipients", icon: <Users className="mr-2" size={16} />, text: "Add Recipient", testId: "add-recipient" },
-                  { to: "/payments/history", icon: <Clock className="mr-2" size={16} />, text: "Payment History", testId: "payment-history" },
-                  { to: "/reports/transactions", icon: <Activity className="mr-2" size={16} />, text: "Transaction Reports", testId: "transaction-reports" },
-                  { to: "/settings", icon: <Settings className="mr-2" size={16} />, text: "Manage Limits", testId: "manage-limits" }
-                ].map((action, index) => (
-                  <Link key={index} to={action.to} data-testid={`quick-action-${action.testId}`}>
-                    <Button 
-                      className={`w-full justify-start hover-lift ${
-                        action.primary 
-                          ? 'bg-bank-primary hover:bg-bank-primary/90' 
-                          : 'variant-outline'
-                      }`}
-                      variant={action.primary ? 'default' : 'outline'}
-                    >
-                      {action.icon}
-                      {action.text}
-                    </Button>
-                  </Link>
-                ))}
-              </CardContent>
-            </Card>
+            <QuickActions actions={quickActionItems} />
           </div>
         </div>
       </main>
