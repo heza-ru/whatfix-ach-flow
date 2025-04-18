@@ -52,8 +52,8 @@ export const Header = () => {
       <div className="flex justify-between bg-neutral-surface px-6 py-3">
         <Link to="/" className="flex items-center">
           <div className="flex items-center">
-            <span className="text-primary-dark text-2xl font-bold">Whatfix</span>
-            <span className="ml-1 text-text-primary">Portal for SMBC</span>
+            <span className="text-primary-dark text-2xl font-bold">SMBC</span>
+            <span className="ml-1 text-text-primary">Portal by Whatfix</span>
           </div>
         </Link>
         <div className="flex items-center">
