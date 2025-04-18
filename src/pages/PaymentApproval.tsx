@@ -6,6 +6,8 @@ import PaymentReversalConfirmation from '@/components/payments/PaymentReversalCo
 import { useToast } from '@/hooks/use-toast';
 import { Payment } from '@/types/payment';
 import { PageHeader } from '@/components/layout/PageHeader';
+import Header from '@/components/layout/Header';
+import { Navigation } from '@/components/layout/Navigation';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -104,68 +106,72 @@ const PaymentApproval = () => {
   };
 
   return (
-    <div>
-      <PageHeader 
-        icon={<ClipboardCheck />}
-        title="Payment Approval"
-        subtitle="Review and approve pending payments"
-        showPrintButton={true}
-        showHelpButton={true}
-      />
-      
-      <div className="container mx-auto p-6">
-        <div className="bg-white shadow-sm rounded-lg p-6">
-          <div className="flex justify-between mb-6">
-            <div className="grid grid-cols-3 gap-4 w-full">
-              <div>
-                <label className="block text-sm font-medium mb-1">Send Date</label>
-                <div className="flex gap-4">
-                  <input type="date" className="border rounded p-2 w-full" />
-                  <input type="date" className="border rounded p-2 w-full" />
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Navigation />
+      <div>
+        <PageHeader 
+          icon={<ClipboardCheck />}
+          title="Payment Approval"
+          subtitle="Review and approve pending payments"
+          showPrintButton={true}
+          showHelpButton={true}
+        />
+        
+        <div className="container mx-auto p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
+            <div className="flex justify-between mb-6">
+              <div className="grid grid-cols-3 gap-4 w-full">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Send Date</label>
+                  <div className="flex gap-4">
+                    <input type="date" className="border rounded p-2 w-full" />
+                    <input type="date" className="border rounded p-2 w-full" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">All Payment Types</label>
+                  <select className="border rounded p-2 w-full">
+                    <option>All Payment Types</option>
+                    <option>CCD - Corporate Credit or Debit</option>
+                    <option>PPD - Prearranged Payment and Deposit</option>
+                    <option>Tax</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">All Statuses</label>
+                  <select className="border rounded p-2 w-full">
+                    <option>All Statuses</option>
+                    <option>Pending</option>
+                    <option>Scheduled</option>
+                    <option>Completed</option>
+                    <option>Overdue</option>
+                  </select>
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">All Payment Types</label>
-                <select className="border rounded p-2 w-full">
-                  <option>All Payment Types</option>
-                  <option>CCD - Corporate Credit or Debit</option>
-                  <option>PPD - Prearranged Payment and Deposit</option>
-                  <option>Tax</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">All Statuses</label>
-                <select className="border rounded p-2 w-full">
-                  <option>All Statuses</option>
-                  <option>Pending</option>
-                  <option>Scheduled</option>
-                  <option>Completed</option>
-                  <option>Overdue</option>
-                </select>
+              <div className="flex items-end">
+                <button className="bg-blue-600 text-white py-2 px-4 rounded">
+                  Search
+                </button>
               </div>
             </div>
-            <div className="flex items-end">
-              <button className="bg-blue-600 text-white py-2 px-4 rounded">
-                Search
-              </button>
-            </div>
+            
+            {showReversal ? (
+              <PaymentReversalConfirmation 
+                selectedPayments={selectedPayments}
+                onCancel={() => setShowReversal(false)}
+                onSubmit={handleSubmitReversal}
+              />
+            ) : (
+              <PaymentApprovalTable 
+                payments={payments}
+                onApprove={handleApprove}
+                onReject={handleReject}
+                onReverseTxns={handleReverseTxns}
+                onReversePayment={handleReversePayment}
+              />
+            )}
           </div>
-          
-          {showReversal ? (
-            <PaymentReversalConfirmation 
-              selectedPayments={selectedPayments}
-              onCancel={() => setShowReversal(false)}
-              onSubmit={handleSubmitReversal}
-            />
-          ) : (
-            <PaymentApprovalTable 
-              payments={payments}
-              onApprove={handleApprove}
-              onReject={handleReject}
-              onReverseTxns={handleReverseTxns}
-              onReversePayment={handleReversePayment}
-            />
-          )}
         </div>
       </div>
 
