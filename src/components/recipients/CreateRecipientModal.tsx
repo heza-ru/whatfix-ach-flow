@@ -496,9 +496,7 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
   );
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => {
-      if (!open) handleCancel();
-    }}>
+    <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent className="max-w-4xl max-h-[90vh] rounded-xl overflow-hidden">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-white bg-blue-600 -m-6 p-6 flex items-center rounded-t-xl">

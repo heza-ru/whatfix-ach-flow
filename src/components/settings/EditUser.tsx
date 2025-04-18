@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -114,7 +113,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
   const progressPercentage = ((step - 1) / 2) * 100;
 
   return (
-    <Dialog open={open} onOpenChange={handleDialogClose}>
+    <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{user ? 'Edit User' : 'Add User'}</DialogTitle>
