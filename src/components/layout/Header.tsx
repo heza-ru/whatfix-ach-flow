@@ -52,8 +52,8 @@ export const Header = () => {
       <div className="flex justify-between bg-gray-100 px-6 py-3 text-black">
         <Link to="/" className="flex items-center">
           <div className="flex items-center">
-            <span className="text-bank-primary text-2xl font-bold">whatfix</span>
-            <span className="ml-1 text-bank-primary">bank</span>
+            <span className="text-bank-primary text-2xl font-bold">Whatfix</span>
+            <span className="ml-1 text-bank-primary">Portal for SMBC</span>
           </div>
         </Link>
         <div className="flex items-center">
