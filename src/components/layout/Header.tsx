@@ -25,8 +25,8 @@ export const Header = () => {
   });
 
   return (
-    <header className="w-full fixed top-0 z-50">
-      <div className="flex justify-between px-4 py-2 items-center bg-black text-white">
+    <header className="w-full bg-black text-white">
+      <div className="flex justify-between px-4 py-2 items-center">
         <div className="text-sm">
           Last Login: {formattedDate} - {formattedTime} (Pacific Standard Time)
         </div>
@@ -49,14 +49,13 @@ export const Header = () => {
           </Link>
         </div>
       </div>
-      <div className="flex justify-between items-center bg-gray-100 px-6 py-3 text-black">
-        <div className="w-32">
-          <img src="/lovable-uploads/f6f21794-b47d-4f0a-9981-e5aa42bb5d07.png" alt="Whatfix Logo" className="h-8 object-contain" />
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-bank-primary">Whatfix Portal for</span>
-          <img src="/lovable-uploads/87315a42-2560-4d30-b971-189ba94815c1.png" alt="SMBC Logo" className="h-8 object-contain" />
-        </div>
+      <div className="flex justify-between bg-gray-100 px-6 py-3 text-black">
+        <Link to="/" className="flex items-center">
+          <div className="flex items-center">
+            <span className="text-bank-primary text-2xl font-bold">whatfix</span>
+            <span className="ml-1 text-bank-primary">bank</span>
+          </div>
+        </Link>
         <div className="flex items-center">
           <div className="text-right mr-4">
             <div className="text-sm text-gray-500">Welcome,</div>
