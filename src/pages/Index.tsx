@@ -1,7 +1,11 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DollarSign, CreditCard, Users, Settings, Clock, CheckCircle, XCircle, AlertCircle, PieChart } from 'lucide-react';
+import { 
+  DollarSign, CreditCard, Users, Settings, Clock, 
+  CheckCircle, XCircle, AlertCircle, PieChart,
+  TrendingUp, Activity, FileText
+} from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Navigation from '@/components/layout/Navigation';
 import { Button } from '@/components/ui/button';
@@ -12,20 +16,40 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
+import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, PieChart as RechartPieChart, Pie, Cell, Tooltip } from 'recharts';
 import { mockPayments, mockTemplates, mockRecipients } from '@/utils/mockData';
 
 const Index = () => {
   const [showTour, setShowTour] = useState(false);
-
-  const startTour = () => {
-    setShowTour(true);
-  };
 
   // Stats for dashboard
   const pendingPayments = mockPayments.filter(p => p.status === 'pending').length;
   const completedPayments = mockPayments.filter(p => p.status === 'complete').length;
   const totalTemplates = mockTemplates.length;
   const totalRecipients = mockRecipients.length;
+
+  // Payment Status Chart Data
+  const paymentStatusData = [
+    { name: 'Pending', value: pendingPayments, color: '#FFB547' },
+    { name: 'Completed', value: completedPayments, color: '#1C7C54' },
+    { name: 'Failed', value: mockPayments.filter(p => p.status === 'rejected').length, color: '#D32F2F' }
+  ];
+
+  // Payment Trend Data (last 7 days)
+  const paymentTrendData = [
+    { date: '2025-04-12', amount: 12500 },
+    { date: '2025-04-13', amount: 15000 },
+    { date: '2025-04-14', amount: 18000 },
+    { date: '2025-04-15', amount: 16500 },
+    { date: '2025-04-16', amount: 21000 },
+    { date: '2025-04-17', amount: 19500 },
+    { date: '2025-04-18', amount: 22000 },
+  ];
 
   // Recent payments for dashboard
   const recentPayments = mockPayments.slice(0, 5);
@@ -96,13 +120,85 @@ const Index = () => {
             </CardContent>
           </Card>
         </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* Payment Trend Chart */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <TrendingUp className="mr-2" size={20} />
+                Payment Trends
+              </CardTitle>
+              <CardDescription>Last 7 days payment volume</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ChartContainer config={{}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={paymentTrendData}>
+                      <defs>
+                        <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#B3D458" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#B3D458" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Area type="monotone" dataKey="amount" stroke="#B3D458" fillOpacity={1} fill="url(#colorAmount)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Payment Status Distribution */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <PieChart className="mr-2" size={20} />
+                Payment Status
+              </CardTitle>
+              <CardDescription>Current payment distribution</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartPieChart>
+                    <Pie
+                      data={paymentStatusData}
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {paymentStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </RechartPieChart>
+                </ResponsiveContainer>
+                <div className="flex justify-center gap-4 mt-4">
+                  {paymentStatusData.map((entry, index) => (
+                    <div key={index} className="flex items-center">
+                      <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: entry.color }}></div>
+                      <span className="text-sm text-gray-600">{entry.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <Card>
               <CardHeader className="pb-2 flex flex-row items-center justify-between">
                 <CardTitle>Recent Payments</CardTitle>
-                <Link to="/payments" className="text-sm text-bank-primary">
+                <Link to="/payments/history" className="text-sm text-bank-primary">
                   View All
                 </Link>
               </CardHeader>
@@ -178,6 +274,12 @@ const Index = () => {
                     Payment History
                   </Button>
                 </Link>
+                <Link to="/reports/transactions">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Activity className="mr-2" size={16} />
+                    Transaction Reports
+                  </Button>
+                </Link>
                 <Link to="/settings/limits">
                   <Button variant="outline" className="w-full justify-start">
                     <Settings className="mr-2" size={16} />
@@ -215,3 +317,4 @@ const Index = () => {
 };
 
 export default Index;
+
