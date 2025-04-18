@@ -1,6 +1,12 @@
 
 import React from 'react';
 import { Info } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 type InfoTooltipProps = {
   content: string;
@@ -11,20 +17,22 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   content, 
   position = 'top' 
 }) => {
-  const positionClass = {
-    top: 'bottom-full left-1/2 transform -translate-x-1/2 mb-2',
-    right: 'left-full top-1/2 transform -translate-y-1/2 ml-2',
-    bottom: 'top-full left-1/2 transform -translate-x-1/2 mt-2',
-    left: 'right-full top-1/2 transform -translate-y-1/2 mr-2'
-  };
+  // Map our position prop to Radix UI's side prop
+  const side = position;
 
   return (
-    <div className="tooltip-container inline-block">
-      <Info size={16} className="text-bank-primary cursor-help" />
-      <div className={`tooltip-content ${positionClass[position]} w-48 text-center`}>
-        {content}
-      </div>
-    </div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <span className="inline-flex">
+            <Info size={16} className="text-bank-primary cursor-help" />
+          </span>
+        </TooltipTrigger>
+        <TooltipContent side={side}>
+          <p className="text-sm">{content}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 
