@@ -18,7 +18,7 @@ interface User {
   entitlement: 'Full' | 'None' | 'Custom';
   isApprover: boolean;
   isAdmin: boolean;
-  status: 'active' | 'inactive';
+  status: 'active' | 'pending' | 'incomplete' | 'error' | 'approved' | 'rejected' | 'draft' | 'complete';
 }
 
 const UsersTable = () => {
