@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -15,7 +14,8 @@ const navigationItems: NavItem[] = [
     children: [
       { title: 'Make a Payment', path: '/payments/new' },
       { title: 'Payment History', path: '/payments/history' },
-      { title: 'Recurring Payments', path: '/payments/recurring' }
+      { title: 'Recurring Payments', path: '/payments/recurring' },
+      { title: 'ACH Quick Entry', path: '/payments/quick-entry' }
     ]
   },
   { 
@@ -41,7 +41,6 @@ export const Navigation = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Function to determine if a nav item or its children are active
   const isActive = (item: NavItem): boolean => {
     if (currentPath === item.path) return true;
     if (item.children) {
