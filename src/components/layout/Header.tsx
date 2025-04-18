@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Bell, Check } from 'lucide-react';
@@ -65,7 +64,7 @@ export const Header = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="rounded-full p-0 h-8 w-8 bg-bank-primary text-white">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-bank-primary text-white text-sm">SC</AvatarFallback>
+                  <AvatarFallback className="bg-bank-primary text-white text-sm">RO</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
