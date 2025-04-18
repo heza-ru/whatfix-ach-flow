@@ -17,7 +17,8 @@ const navigationItems: NavItem[] = [
       { title: 'Payment History', path: '/payments/history' },
       { title: 'Recurring Payments', path: '/payments/recurring' },
       { title: 'ACH Quick Entry', path: '/payments/quick-entry' },
-      { title: 'Approval Payments', path: '/payments/approval' }
+      { title: 'Approval Payments', path: '/payments/approval' },
+      { title: 'Create PPD Template', path: '/payments/ppd-template' }
     ]
   },
   { 
