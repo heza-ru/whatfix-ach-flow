@@ -1,19 +1,26 @@
-
 import React, { useState } from 'react';
 import { Payment } from '@/types/payment';
 import StatusBadge from '@/components/common/StatusBadge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationNext, 
-  PaginationPrevious,
-  PaginationLink
-} from '@/components/ui/pagination';
 import { Button } from '@/components/ui/button';
-import { Check, X, FileText, FileMinus, FileX } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Check, X, FileText, FileMinus, FileX, ChevronDown } from 'lucide-react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationLink,
+} from '@/components/ui/pagination';
+
+interface Column {
+  id: string;
+  label: string;
+  visible: boolean;
+}
 
 interface PaymentApprovalTableProps {
   payments: Payment[];
@@ -32,13 +39,16 @@ export const PaymentApprovalTable: React.FC<PaymentApprovalTableProps> = ({
 }) => {
   const [selectedPayments, setSelectedPayments] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  // Calculate pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = payments.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(payments.length / itemsPerPage);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [columns, setColumns] = useState<Column[]>([
+    { id: 'paymentDate', label: 'Payment Date', visible: true },
+    { id: 'paymentNo', label: 'Payment No./Name/Reference', visible: true },
+    { id: 'status', label: 'Status/Confirmation No.', visible: true },
+    { id: 'companyAccount', label: 'Co. Account/Co. Account Identifier', visible: true },
+    { id: 'type', label: 'Type/Created By Template', visible: true },
+    { id: 'recipient', label: 'Recipient', visible: true },
+    { id: 'amount', label: 'Amount (Items)', visible: true },
+  ]);
 
   const handleSelectAll = () => {
     if (selectedPayments.length === currentItems.length) {
@@ -60,8 +70,59 @@ export const PaymentApprovalTable: React.FC<PaymentApprovalTableProps> = ({
     return `$ ${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
 
+  const toggleColumnVisibility = (columnId: string) => {
+    setColumns(columns.map(col => 
+      col.id === columnId ? { ...col, visible: !col.visible } : col
+    ));
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = payments.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(payments.length / itemsPerPage);
+
   return (
     <div className="w-full">
+      <div className="flex justify-between items-center mb-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-[200px]">
+            {columns.map(column => (
+              <DropdownMenuCheckboxItem
+                key={column.id}
+                checked={column.visible}
+                onCheckedChange={() => toggleColumnVisibility(column.id)}
+              >
+                {column.label}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500">Show</span>
+          <Select
+            value={itemsPerPage.toString()}
+            onValueChange={(value) => setItemsPerPage(Number(value))}
+          >
+            <SelectTrigger className="w-[70px]">
+              <SelectValue>{itemsPerPage}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5</SelectItem>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+          <span className="text-sm text-gray-500">entries</span>
+        </div>
+      </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -72,28 +133,11 @@ export const PaymentApprovalTable: React.FC<PaymentApprovalTableProps> = ({
                   onCheckedChange={handleSelectAll}
                 />
               </TableHead>
-              <TableHead className="whitespace-nowrap">Payment Date</TableHead>
-              <TableHead className="whitespace-nowrap">
-                Payment No.<br/>
-                Name/Reference
-              </TableHead>
-              <TableHead className="whitespace-nowrap">
-                Status<br/>
-                Confirmation No.
-              </TableHead>
-              <TableHead className="whitespace-nowrap">
-                Co. Account<br/>
-                Co. Account Identifier
-              </TableHead>
-              <TableHead className="whitespace-nowrap">
-                Type<br/>
-                Created By Template
-              </TableHead>
-              <TableHead className="whitespace-nowrap">Recipient</TableHead>
-              <TableHead className="whitespace-nowrap text-right">
-                Amount (Items)<br/>
-                Recipient Amount (Items)
-              </TableHead>
+              {columns.map(column => column.visible && (
+                <TableHead key={column.id} className="whitespace-nowrap">
+                  {column.label}
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -105,39 +149,53 @@ export const PaymentApprovalTable: React.FC<PaymentApprovalTableProps> = ({
                     onCheckedChange={() => handleSelectPayment(payment.id)}
                   />
                 </TableCell>
-                <TableCell className="whitespace-nowrap font-medium">
-                  {payment.paymentDate}<br/>
-                  <span className="text-sm text-gray-500">{payment.sendDate}</span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center">
-                    <span className="text-blue-500 font-medium">{payment.paymentNo}</span>
-                    <FileText className="ml-2 text-blue-500 h-5 w-5" />
-                  </div>
-                  <span className="text-sm text-gray-600">{payment.name}</span>
-                </TableCell>
-                <TableCell>
-                  <StatusBadge status={payment.status} /><br/>
-                  {payment.confirmationNo && <span className="text-sm text-gray-500">{payment.confirmationNo}</span>}
-                </TableCell>
-                <TableCell>
-                  {payment.companyAccount}<br/>
-                  <span className="text-sm text-gray-500">{payment.companyIdentifier}</span>
-                </TableCell>
-                <TableCell>
-                  {payment.type}<br/>
-                  {payment.template && <span className="text-sm text-gray-500">{payment.template}</span>}
-                </TableCell>
-                <TableCell className="whitespace-nowrap">
-                  {payment.recipient.startsWith('View') ? (
-                    <span className="text-blue-500 cursor-pointer">{payment.recipient}</span>
-                  ) : (
-                    payment.recipient
-                  )}
-                </TableCell>
-                <TableCell className="text-right whitespace-nowrap">
-                  {formatAmount(payment.amount)}
-                </TableCell>
+                {columns.find(col => col.id === 'paymentDate')?.visible && (
+                  <TableCell className="whitespace-nowrap font-medium">
+                    {payment.paymentDate}<br/>
+                    <span className="text-sm text-gray-500">{payment.sendDate}</span>
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'paymentNo')?.visible && (
+                  <TableCell>
+                    <div className="flex items-center">
+                      <span className="text-blue-500 font-medium">{payment.paymentNo}</span>
+                      <FileText className="ml-2 text-blue-500 h-5 w-5" />
+                    </div>
+                    <span className="text-sm text-gray-600">{payment.name}</span>
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'status')?.visible && (
+                  <TableCell>
+                    <StatusBadge status={payment.status} /><br/>
+                    {payment.confirmationNo && <span className="text-sm text-gray-500">{payment.confirmationNo}</span>}
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'companyAccount')?.visible && (
+                  <TableCell>
+                    {payment.companyAccount}<br/>
+                    <span className="text-sm text-gray-500">{payment.companyIdentifier}</span>
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'type')?.visible && (
+                  <TableCell>
+                    {payment.type}<br/>
+                    {payment.template && <span className="text-sm text-gray-500">{payment.template}</span>}
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'recipient')?.visible && (
+                  <TableCell className="whitespace-nowrap">
+                    {payment.recipient.startsWith('View') ? (
+                      <span className="text-blue-500 cursor-pointer">{payment.recipient}</span>
+                    ) : (
+                      payment.recipient
+                    )}
+                  </TableCell>
+                )}
+                {columns.find(col => col.id === 'amount')?.visible && (
+                  <TableCell className="text-right whitespace-nowrap">
+                    {formatAmount(payment.amount)}
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

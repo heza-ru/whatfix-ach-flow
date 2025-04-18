@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
 import { mockPayments } from '@/utils/paymentMockData';
@@ -9,7 +8,7 @@ import { Payment } from '@/types/payment';
 import { PageHeader } from '@/components/layout/PageHeader';
 import Header from '@/components/layout/Header';
 import { Navigation } from '@/components/layout/Navigation';
-import { Button } from '@/components/ui/button'; // Add this import
+import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -121,7 +120,7 @@ const PaymentApproval = () => {
         />
         
         <div className="container mx-auto p-6">
-          <div className="bg-white shadow-sm rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6 mb-6">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="w-full md:w-1/3">
                 <label className="block text-sm font-medium text-gray-700 mb-1">Send Date</label>
