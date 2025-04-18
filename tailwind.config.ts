@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -26,12 +25,33 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '#B3D458',
+					dark: '#94B43C',
+					foreground: '#FFFFFF'
+				},
+				brand: {
+					accent: '#005A47',
+					'accent-light': '#E0EFE9'
 				},
 				secondary: {
-					DEFAULT: 'hsl(var(--secondary))',
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '#75A9A0',
+					hover: '#5C867F',
+					foreground: '#FFFFFF'
+				},
+				status: {
+					success: '#1C7C54',
+					warning: '#FFB547',
+					error: '#D32F2F'
+				},
+				neutral: {
+					background: '#F5F9EA',
+					surface: '#FFFFFF',
+					divider: '#E0E0E0'
+				},
+				text: {
+					primary: '#212121',
+					secondary: '#616161',
+					disabled: '#9E9E9E'
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
@@ -42,8 +62,8 @@ export default {
 					foreground: 'hsl(var(--muted-foreground))'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: '#005A47',
+					foreground: '#FFFFFF'
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -54,16 +74,16 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				bank: {
-					primary: '#1976d2',
-					secondary: '#e1f5fe',
-					accent: '#33c3f0',
-					warning: '#ffc107',
-					danger: '#ea384c',
-					success: '#4caf50',
-					dark: '#1a1f2c',
-					gray: '#8e9196',
-					"light-gray": '#f5f5f5',
-					header: '#000000e6'
+					primary: '#B3D458',
+					secondary: '#E0EFE9',
+					accent: '#005A47',
+					warning: '#FFB547',
+					danger: '#D32F2F',
+					success: '#1C7C54',
+					dark: '#212121',
+					gray: '#616161',
+					"light-gray": '#F5F9EA',
+					header: '#212121'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
