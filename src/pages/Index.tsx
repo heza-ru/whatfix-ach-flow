@@ -54,26 +54,30 @@ const Index = () => {
   const recentPayments = mockPayments.slice(0, 5);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100" data-testid="dashboard-container">
       <Header />
       <Navigation />
       
-      <main className="flex-1 p-4 md:p-6">
-        <div className="flex items-center justify-between mb-6 animate-fade-up">
-          <h1 className="text-2xl font-medium">Dashboard</h1>
-          <Button onClick={startTour} className="bg-bank-primary hover:bg-bank-primary/90 hover-lift">
+      <main className="flex-1 p-4 md:p-6" data-testid="dashboard-main">
+        <div className="flex items-center justify-between mb-6 animate-fade-up" data-testid="dashboard-header">
+          <h1 className="text-2xl font-medium" data-testid="dashboard-title">Dashboard</h1>
+          <Button 
+            onClick={startTour} 
+            className="bg-bank-primary hover:bg-bank-primary/90 hover-lift"
+            data-testid="tour-button"
+          >
             Take a Tour
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" data-testid="stats-grid">
           {[
-            { icon: <DollarSign className="mr-2 text-bank-primary" size={20} />, title: "Pending Payments", value: pendingPayments, subtitle: "Awaiting approval" },
-            { icon: <CheckCircle className="mr-2 text-green-500" size={20} />, title: "Completed Payments", value: completedPayments, subtitle: "Successfully processed" },
-            { icon: <CreditCard className="mr-2 text-blue-500" size={20} />, title: "Templates", value: totalTemplates, subtitle: "Saved templates" },
-            { icon: <Users className="mr-2 text-purple-500" size={20} />, title: "Recipients", value: totalRecipients, subtitle: "Active recipients" }
+            { icon: <DollarSign className="mr-2 text-bank-primary" size={20} />, title: "Pending Payments", value: pendingPayments, subtitle: "Awaiting approval", testId: "pending-payments" },
+            { icon: <CheckCircle className="mr-2 text-green-500" size={20} />, title: "Completed Payments", value: completedPayments, subtitle: "Successfully processed", testId: "completed-payments" },
+            { icon: <CreditCard className="mr-2 text-blue-500" size={20} />, title: "Templates", value: totalTemplates, subtitle: "Saved templates", testId: "templates" },
+            { icon: <Users className="mr-2 text-purple-500" size={20} />, title: "Recipients", value: totalRecipients, subtitle: "Active recipients", testId: "recipients" }
           ].map((item, index) => (
-            <Card key={index} className="card-transition animate-fade-up" style={{ animationDelay: `${index * 100}ms` }}>
+            <Card key={index} className="card-transition animate-fade-up" style={{ animationDelay: `${index * 100}ms` }} data-testid={`stat-card-${item.testId}`}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg flex items-center">
                   {item.icon}
@@ -88,8 +92,8 @@ const Index = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <Card className="lg:col-span-2 card-transition animate-slide-in">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6" data-testid="charts-grid">
+          <Card className="lg:col-span-2 card-transition animate-slide-in" data-testid="payment-trends">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <TrendingUp className="mr-2" size={20} />
@@ -123,7 +127,7 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="card-transition animate-slide-in" style={{ animationDelay: '200ms' }}>
+          <Card className="card-transition animate-slide-in" style={{ animationDelay: '200ms' }} data-testid="payment-status">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <PieChart className="mr-2" size={20} />
@@ -162,9 +166,9 @@ const Index = () => {
           </Card>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" data-testid="tables-grid">
           <div className="lg:col-span-2">
-            <Card className="card-transition animate-fade-up">
+            <Card className="card-transition animate-fade-up" data-testid="recent-payments">
               <CardHeader className="pb-2 flex flex-row items-center justify-between">
                 <CardTitle>Recent Payments</CardTitle>
                 <Link to="/payments/history" className="text-sm text-bank-primary">
@@ -215,21 +219,21 @@ const Index = () => {
           </div>
           
           <div>
-            <Card className="card-transition animate-fade-up" style={{ animationDelay: '300ms' }}>
+            <Card className="card-transition animate-fade-up" style={{ animationDelay: '300ms' }} data-testid="quick-actions">
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
                 <CardDescription>Common tasks you can perform</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {[
-                  { to: "/payments/new", icon: <DollarSign className="mr-2" size={16} />, text: "New Payment", primary: true },
-                  { to: "/templates", icon: <CreditCard className="mr-2" size={16} />, text: "Create Template" },
-                  { to: "/recipients", icon: <Users className="mr-2" size={16} />, text: "Add Recipient" },
-                  { to: "/payments/history", icon: <Clock className="mr-2" size={16} />, text: "Payment History" },
-                  { to: "/reports/transactions", icon: <Activity className="mr-2" size={16} />, text: "Transaction Reports" },
-                  { to: "/settings", icon: <Settings className="mr-2" size={16} />, text: "Manage Limits" }
+                  { to: "/payments/new", icon: <DollarSign className="mr-2" size={16} />, text: "New Payment", primary: true, testId: "new-payment" },
+                  { to: "/templates", icon: <CreditCard className="mr-2" size={16} />, text: "Create Template", testId: "create-template" },
+                  { to: "/recipients", icon: <Users className="mr-2" size={16} />, text: "Add Recipient", testId: "add-recipient" },
+                  { to: "/payments/history", icon: <Clock className="mr-2" size={16} />, text: "Payment History", testId: "payment-history" },
+                  { to: "/reports/transactions", icon: <Activity className="mr-2" size={16} />, text: "Transaction Reports", testId: "transaction-reports" },
+                  { to: "/settings", icon: <Settings className="mr-2" size={16} />, text: "Manage Limits", testId: "manage-limits" }
                 ].map((action, index) => (
-                  <Link key={index} to={action.to}>
+                  <Link key={index} to={action.to} data-testid={`quick-action-${action.testId}`}>
                     <Button 
                       className={`w-full justify-start hover-lift ${
                         action.primary 
@@ -250,7 +254,7 @@ const Index = () => {
       </main>
       
       {showTour && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-up">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fade-up" data-testid="tour-modal">
           <div className="bg-white p-6 rounded-lg max-w-md">
             <h2 className="text-xl font-bold mb-4">Welcome to Whatfix Bank!</h2>
             <p className="mb-4">Let us guide you through the main features of your banking portal.</p>
