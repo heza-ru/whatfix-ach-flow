@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -7,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { CreateRecipientFormData, Recipient } from '@/types/recipient';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,12 +23,9 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CreateRecipientFormData>({
-    // Step 1
     recipientType: 'ACH Domestic',
     achRecipientType: 'Individual',
     paymentType: 'PPD',
-    
-    // Step 2
     name: '',
     recipientId: '',
     accountType: 'Checking',
@@ -36,8 +33,6 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
     bankSelectionMethod: 'List',
     bankId: '',
     bankName: '',
-    
-    // Step 3
     addContactInfo: false
   });
 
@@ -67,7 +62,6 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
   };
 
   const handleSubmit = () => {
-    // Create a new recipient from the form data
     const newRecipient: Recipient = {
       id: uuidv4(),
       name: formData.name,
@@ -82,7 +76,6 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
 
     onRecipientCreated(newRecipient);
     
-    // Reset form
     setFormData({
       recipientType: 'ACH Domestic',
       achRecipientType: 'Individual',
@@ -150,7 +143,14 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
           <div>
             <RadioGroup
               value={formData.achRecipientType}
-              onValueChange={(value) => handleRadioChange('achRecipientType', value)}
+              onValueChange={(value) => {
+                handleRadioChange('achRecipientType', value);
+                if (value === 'Individual') {
+                  handleRadioChange('paymentType', 'PPD');
+                } else {
+                  handleRadioChange('paymentType', 'CCD');
+                }
+              }}
               className="flex flex-col space-y-3"
             >
               <div className="flex items-center space-x-2">
@@ -164,23 +164,25 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
             </RadioGroup>
             
             <div className="mt-6 border-t border-dashed border-gray-300 pt-4">
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="ppdPayment" 
-                  checked={formData.paymentType === 'PPD'} 
-                  onCheckedChange={() => handleRadioChange('paymentType', 'PPD')}
-                />
-                <Label htmlFor="ppdPayment">PPD - Prearranged Payment and Deposit</Label>
-              </div>
-              
-              <div className="flex items-center space-x-2 mt-3">
-                <Checkbox 
-                  id="ccdPayment" 
-                  checked={formData.paymentType === 'CCD'} 
-                  onCheckedChange={() => handleRadioChange('paymentType', 'CCD')}
-                />
-                <Label htmlFor="ccdPayment">CCD - Corporate Credit or Debit</Label>
-              </div>
+              {formData.achRecipientType === 'Individual' ? (
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="ppdPayment" 
+                    checked={true}
+                    disabled={true}
+                  />
+                  <Label htmlFor="ppdPayment">PPD - Prearranged Payment and Deposit</Label>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="ccdPayment" 
+                    checked={true}
+                    disabled={true}
+                  />
+                  <Label htmlFor="ccdPayment">CCD - Corporate Credit or Debit</Label>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -308,13 +310,11 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
                   </Button>
                 </div>
                 
-                {/* This would be a bank selection component in a real app */}
                 <div className="mt-4">
                   <Select 
                     value={formData.bankId} 
                     onValueChange={(value) => {
                       handleSelectChange('bankId', value);
-                      // In a real app, you would get the bank name from the selected bank
                       const bankNames: Record<string, string> = {
                         '221982389': '(AFCU) ACADEMIC FEDERAL CREDIT UNION',
                         '226077862': 'SEIU FEDERAL CREDIT UNION',
@@ -499,9 +499,9 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
     <Dialog open={isOpen} onOpenChange={(open) => {
       if (!open) handleCancel();
     }}>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="max-w-4xl max-h-[90vh] rounded-xl overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-white bg-blue-600 -m-6 p-6 flex items-center">
+          <DialogTitle className="text-xl font-bold text-white bg-blue-600 -m-6 p-6 flex items-center rounded-t-xl">
             {currentStep === 3 ? 'PREVIEW MASTER RECIPIENT' : 'CREATE MASTER RECIPIENT'}
             <div className="ml-auto text-sm font-normal">
               <span className="bg-red-500 text-white px-2 py-1 rounded-full">*</span> Required Fields
@@ -509,13 +509,15 @@ const CreateRecipientModal: React.FC<CreateRecipientModalProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <div className="mt-4">
-          {currentStep === 1 && renderStep1()}
-          {currentStep === 2 && renderStep2()}
-          {currentStep === 3 && renderStep3()}
-        </div>
+        <ScrollArea className="h-[calc(90vh-180px)]">
+          <div className="p-6">
+            {currentStep === 1 && renderStep1()}
+            {currentStep === 2 && renderStep2()}
+            {currentStep === 3 && renderStep3()}
+          </div>
+        </ScrollArea>
         
-        <div className="flex justify-between mt-8">
+        <div className="flex justify-between mt-4 border-t pt-4">
           <div>
             <Button variant="secondary" onClick={handleCancel} className="mr-2">
               Cancel
