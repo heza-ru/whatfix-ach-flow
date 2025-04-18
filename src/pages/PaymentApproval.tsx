@@ -120,39 +120,43 @@ const PaymentApproval = () => {
         
         <div className="container mx-auto p-6">
           <div className="bg-white shadow-sm rounded-lg p-6">
-            <div className="flex justify-between mb-6">
-              <div className="grid grid-cols-3 gap-4 w-full">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Send Date</label>
-                  <div className="flex gap-4">
-                    <input type="date" className="border rounded p-2 w-full" />
-                    <input type="date" className="border rounded p-2 w-full" />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">All Payment Types</label>
-                  <select className="border rounded p-2 w-full">
-                    <option>All Payment Types</option>
-                    <option>CCD - Corporate Credit or Debit</option>
-                    <option>PPD - Prearranged Payment and Deposit</option>
-                    <option>Tax</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">All Statuses</label>
-                  <select className="border rounded p-2 w-full">
-                    <option>All Statuses</option>
-                    <option>Pending</option>
-                    <option>Scheduled</option>
-                    <option>Completed</option>
-                    <option>Overdue</option>
-                  </select>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-1/3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Send Date</label>
+                <div className="flex gap-2">
+                  <input 
+                    type="date" 
+                    className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm" 
+                  />
+                  <input 
+                    type="date" 
+                    className="flex-1 h-10 rounded-md border border-input bg-background px-3 py-2 text-sm" 
+                  />
                 </div>
               </div>
+              <div className="w-full md:w-1/3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Types</label>
+                <select className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
+                  <option>All Payment Types</option>
+                  <option>CCD - Corporate Credit or Debit</option>
+                  <option>PPD - Prearranged Payment and Deposit</option>
+                  <option>Tax</option>
+                </select>
+              </div>
+              <div className="w-full md:w-1/3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm">
+                  <option>All Statuses</option>
+                  <option>Pending</option>
+                  <option>Scheduled</option>
+                  <option>Completed</option>
+                  <option>Overdue</option>
+                </select>
+              </div>
               <div className="flex items-end">
-                <button className="bg-blue-600 text-white py-2 px-4 rounded">
+                <Button className="h-10 bg-blue-600 text-white">
                   Search
-                </button>
+                </Button>
               </div>
             </div>
             
