@@ -11,6 +11,7 @@ import {
 import { Recipient } from '@/types/recipient';
 import StatusBadge from '../common/StatusBadge';
 import { Button } from '@/components/ui/button';
+import { StatusType } from '@/types/status';
 
 interface RecipientListProps {
   recipients: Recipient[];
@@ -99,7 +100,7 @@ export const RecipientList: React.FC<RecipientListProps> = ({
                   <div className="font-medium">{recipient.name}</div>
                 </td>
                 <td>
-                  <StatusBadge status={recipient.status || 'pending'} />
+                  <StatusBadge status={(recipient.status as StatusType) || 'pending'} />
                 </td>
                 <td>
                   <div className="flex justify-center">

@@ -9,13 +9,14 @@ import PageHeader from '@/components/layout/PageHeader';
 import RecipientSearch, { RecipientSearchFilters } from '@/components/recipients/RecipientSearch';
 import RecipientList from '@/components/recipients/RecipientList';
 import HelpSidebar from '@/components/layout/HelpSidebar';
-import { mockRecipients } from '@/utils/mockData';
+import { mockRecipients } from '@/utils/recipientMockData';
+import { Recipient } from '@/types/recipient';
 
 const RecipientsPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [recipients, setRecipients] = useState(mockRecipients);
-  const [filteredRecipients, setFilteredRecipients] = useState(mockRecipients);
+  const [recipients, setRecipients] = useState<Recipient[]>(mockRecipients);
+  const [filteredRecipients, setFilteredRecipients] = useState<Recipient[]>(mockRecipients);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const handleSearch = (filters: RecipientSearchFilters) => {
