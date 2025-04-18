@@ -36,6 +36,24 @@ const UsersTable: React.FC<UsersTableProps> = ({ onEditUser }) => {
       isAdmin: true,
       status: 'active'
     },
+    {
+      lastName: 'Smith',
+      firstName: 'John',
+      userId: 'JohnSmith123',
+      entitlement: 'Custom',
+      isApprover: false,
+      isAdmin: false,
+      status: 'pending'
+    },
+    {
+      lastName: 'Jones',
+      firstName: 'Sarah',
+      userId: 'SarahJones456',
+      entitlement: 'None',
+      isApprover: true,
+      isAdmin: false,
+      status: 'active'
+    }
     // More users can be added here
   ];
 

@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 
 interface User {
@@ -39,7 +42,10 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
     approvals: 'none',
     paymentLimits: 'unlimited',
     accessSchedule: 'unlimited',
-    userEntitlements: 'full'
+    userEntitlements: 'full',
+    customApprovalLimit: '',
+    customPaymentLimit: '',
+    customAccessSchedule: ''
   });
 
   useEffect(() => {
@@ -75,16 +81,37 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
       title: "Success",
       description: "User information has been updated successfully.",
     });
-    onClose();
+    
+    // Reset form and close dialog
     setStep(1);
+    setTimeout(() => {
+      onClose();
+    }, 300);
   };
 
+  const progressPercentage = ((step - 1) / 2) * 100;
+
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={() => {
+      setStep(1);
+      onClose();
+    }}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Edit User</DialogTitle>
+          <DialogDescription>
+            Step {step} of 3
+          </DialogDescription>
         </DialogHeader>
+
+        <div className="mb-6 space-y-2">
+          <div className="flex justify-between text-sm font-medium">
+            <span className={step >= 1 ? "text-primary" : "text-muted-foreground"}>User Details</span>
+            <span className={step >= 2 ? "text-primary" : "text-muted-foreground"}>System Access</span>
+            <span className={step >= 3 ? "text-primary" : "text-muted-foreground"}>Permissions</span>
+          </div>
+          <Progress value={progressPercentage} className="h-2" />
+        </div>
 
         {step === 1 && (
           <div className="space-y-4">
@@ -100,8 +127,8 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                   <Label htmlFor="active">Active</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="inactive" id="inactive" />
-                  <Label htmlFor="inactive">Inactive</Label>
+                  <RadioGroupItem value="pending" id="pending" />
+                  <Label htmlFor="pending">Inactive</Label>
                 </div>
               </RadioGroup>
             </div>
@@ -179,6 +206,116 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                 onChange={(e) => handleInputChange('language', e.target.value)}
               />
             </div>
+
+            <div className="space-y-2">
+              <Label>User Entitlements</Label>
+              <RadioGroup
+                value={formData.userEntitlements}
+                onValueChange={(value) => handleInputChange('userEntitlements', value)}
+                className="space-y-2"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="full" id="full-access" />
+                  <Label htmlFor="full-access">Full Access</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="none" id="no-access" />
+                  <Label htmlFor="no-access">No Access</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="custom" id="custom-access" />
+                  <Label htmlFor="custom-access">Custom Access</Label>
+                </div>
+              </RadioGroup>
+              
+              {formData.userEntitlements === 'custom' && (
+                <div className="border p-3 rounded-md mt-2 bg-gray-50">
+                  <Tabs defaultValue="payment" className="w-full">
+                    <TabsList className="w-full grid grid-cols-3">
+                      <TabsTrigger value="payment">Payment</TabsTrigger>
+                      <TabsTrigger value="reporting">Reporting</TabsTrigger>
+                      <TabsTrigger value="admin">Admin</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="payment" className="space-y-2 pt-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="view-payments" checked />
+                        <Label htmlFor="view-payments">View Payments</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="create-payments" />
+                        <Label htmlFor="create-payments">Create Payments</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="approve-payments" />
+                        <Label htmlFor="approve-payments">Approve Payments</Label>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="reporting" className="space-y-2 pt-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="view-reports" checked />
+                        <Label htmlFor="view-reports">View Reports</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="create-reports" />
+                        <Label htmlFor="create-reports">Create Reports</Label>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="admin" className="space-y-2 pt-2">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="manage-users" />
+                        <Label htmlFor="manage-users">Manage Users</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Checkbox id="system-settings" />
+                        <Label htmlFor="system-settings">System Settings</Label>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Access Schedule</Label>
+              <RadioGroup
+                value={formData.accessSchedule}
+                onValueChange={(value) => handleInputChange('accessSchedule', value)}
+                className="flex gap-4"
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="unlimited" id="unlimited-access" />
+                  <Label htmlFor="unlimited-access">Unlimited</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="custom" id="custom-schedule" />
+                  <Label htmlFor="custom-schedule">Custom</Label>
+                </div>
+              </RadioGroup>
+              
+              {formData.accessSchedule === 'custom' && (
+                <div className="border p-3 rounded-md mt-2 bg-gray-50">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label htmlFor="start-time">Start Time</Label>
+                      <Input 
+                        id="start-time" 
+                        type="time" 
+                        value={formData.customAccessSchedule || "09:00"} 
+                        onChange={(e) => handleInputChange('customAccessSchedule', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="end-time">End Time</Label>
+                      <Input 
+                        id="end-time" 
+                        type="time" 
+                        defaultValue="17:00" 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -212,6 +349,25 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                   <Label htmlFor="custom">Custom</Label>
                 </div>
               </RadioGroup>
+              
+              {formData.approvals === 'custom' && (
+                <div className="border p-3 rounded-md mt-2 bg-gray-50 space-y-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="approval-limit">Approval Limit ($)</Label>
+                    <Input 
+                      id="approval-limit" 
+                      type="number" 
+                      placeholder="Enter limit amount"
+                      value={formData.customApprovalLimit}
+                      onChange={(e) => handleInputChange('customApprovalLimit', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="multiple-approvals" />
+                    <Label htmlFor="multiple-approvals">Allow Multiple Approvals</Label>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -230,6 +386,29 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                   <Label htmlFor="custom-limits">Custom</Label>
                 </div>
               </RadioGroup>
+              
+              {formData.paymentLimits === 'custom' && (
+                <div className="border p-3 rounded-md mt-2 bg-gray-50 space-y-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="payment-limit">Payment Limit ($)</Label>
+                    <Input 
+                      id="payment-limit" 
+                      type="number" 
+                      placeholder="Enter limit amount"
+                      value={formData.customPaymentLimit}
+                      onChange={(e) => handleInputChange('customPaymentLimit', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="per-payment" checked />
+                    <Label htmlFor="per-payment">Per Payment</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox id="daily-limit" />
+                    <Label htmlFor="daily-limit">Daily Limit</Label>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -240,7 +419,10 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
               Back
             </Button>
           )}
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={() => {
+            setStep(1);
+            onClose();
+          }}>
             Cancel
           </Button>
           <Button onClick={handleNext}>

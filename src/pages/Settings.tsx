@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Settings as SettingsIcon } from 'lucide-react';
+import { Settings as SettingsIcon, Plus } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Navigation from '@/components/layout/Navigation';
 import PageHeader from '@/components/layout/PageHeader';
@@ -48,6 +48,13 @@ const Settings = () => {
               <Input placeholder="Search users..." className="rounded-r-none" />
               <Button className="rounded-l-none">Search</Button>
             </div>
+            
+            <Button onClick={() => {
+              setSelectedUser(null);
+              setIsEditUserOpen(true);
+            }}>
+              <Plus className="mr-1 h-4 w-4" /> Add User
+            </Button>
           </div>
 
           <div className="bg-white rounded-lg shadow">
