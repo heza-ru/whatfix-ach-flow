@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { FileText, FileUp, Plus, Check, CheckCheck, Search, ChevronDown } from 'lucide-react';
+import { FileText, FileUp, Plus, Check, CheckCheck, Search, ChevronDown, Save } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Recipient } from '@/types/recipient';
 import { PPDTemplate } from '@/types/ppdTemplate';
@@ -123,6 +122,19 @@ const PPDTemplatePage = () => {
     });
   };
 
+  const handleSaveIncomplete = () => {
+    const draftTemplate = {
+      ...ppdTemplate,
+      status: 'draft',
+      recipients: selectedRecipients
+    };
+    
+    toast({
+      title: "Draft Saved",
+      description: "Your template has been saved as a draft.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -145,7 +157,6 @@ const PPDTemplatePage = () => {
         </div>
         
         <div className="space-y-6">
-          {/* Template Information Section */}
           <div className="bg-white shadow-sm rounded-lg overflow-hidden">
             <div className="bg-blue-600 text-white px-6 py-3 flex justify-between items-center">
               <h2 className="text-lg font-medium">TEMPLATE INFORMATION</h2>
@@ -323,7 +334,6 @@ const PPDTemplatePage = () => {
             </div>
           </div>
           
-          {/* Recipients Section */}
           <div className="bg-white shadow-sm rounded-lg overflow-hidden">
             <div className="bg-blue-600 text-white px-6 py-3">
               <h2 className="text-lg font-medium">RECIPIENTS</h2>
@@ -332,11 +342,12 @@ const PPDTemplatePage = () => {
             <div className="p-6">
               <div className="flex flex-wrap gap-2 justify-end mb-4">
                 <Button 
-                  onClick={() => setIsSelectRecipientOpen(true)}
+                  onClick={handleSaveIncomplete}
                   variant="outline" 
                   className="bg-white text-gray-700 border-gray-300"
                 >
-                  Select Recipients
+                  <Save size={16} className="mr-1" />
+                  Save Incomplete
                 </Button>
                 <Button 
                   onClick={handleCreateRecipient}
@@ -424,7 +435,6 @@ const PPDTemplatePage = () => {
         </div>
       </div>
       
-      {/* Select Recipients Modal */}
       <Dialog open={isSelectRecipientOpen} onOpenChange={setIsSelectRecipientOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
           <DialogHeader>
