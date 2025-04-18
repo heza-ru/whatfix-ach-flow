@@ -27,6 +27,11 @@ import { mockPayments, mockTemplates, mockRecipients } from '@/utils/mockData';
 const Index = () => {
   const [showTour, setShowTour] = useState(false);
 
+  // Define the startTour function to fix the error
+  const startTour = () => {
+    setShowTour(true);
+  };
+
   // Stats for dashboard
   const pendingPayments = mockPayments.filter(p => p.status === 'pending').length;
   const completedPayments = mockPayments.filter(p => p.status === 'complete').length;
@@ -317,4 +322,3 @@ const Index = () => {
 };
 
 export default Index;
-
