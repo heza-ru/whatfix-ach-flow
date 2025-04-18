@@ -1,0 +1,118 @@
+
+import { Payment } from "@/types/payment";
+
+export const mockPayments: Payment[] = [
+  {
+    id: "1",
+    paymentNo: "DWDSH7D5SG",
+    name: "Vendor Pay",
+    status: "Pending",
+    confirmationNo: "1",
+    sendDate: "11/15/2022",
+    paymentDate: "11/17/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "123456 - ACH1234",
+    type: "CCD - Corporate Credit or Debit",
+    template: "",
+    recipient: "SG1",
+    amount: 12.00
+  },
+  {
+    id: "2",
+    paymentNo: "PJ55KOJI29",
+    name: "My SVB",
+    status: "Scheduled",
+    sendDate: "10/06/2022",
+    paymentDate: "10/11/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "123456 - ACH1234",
+    type: "PPD - Prearranged Payment and Deposit",
+    template: "",
+    recipient: "Scott Thompson",
+    amount: 20000.00
+  },
+  {
+    id: "3",
+    paymentNo: "J8W8BEUT06",
+    name: "MonthlyPay",
+    status: "Completed",
+    sendDate: "10/05/2022",
+    paymentDate: "10/07/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "123456 - ACH1234",
+    type: "PPD - Prearranged Payment and Deposit",
+    template: "Payroll Monthly",
+    recipient: "View Recipients",
+    amount: 787.27
+  },
+  {
+    id: "4",
+    paymentNo: "E4AWRUQC3U",
+    name: "CCD test",
+    status: "Overdue",
+    sendDate: "10/05/2022",
+    paymentDate: "10/07/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "1234567981 - TEST COMPANY Z",
+    type: "CCD - Corporate Credit or Debit",
+    template: "",
+    recipient: "Chemical Strategies",
+    amount: 100.00
+  },
+  {
+    id: "5",
+    paymentNo: "BU8MR6LZKL",
+    name: "CCD test2",
+    status: "Completed",
+    sendDate: "10/05/2022",
+    paymentDate: "10/07/2022",
+    companyAccount: "******4019",
+    companyIdentifier: "45454545 - ACH1237",
+    type: "CCD - Corporate Credit or Debit",
+    template: "",
+    recipient: "Millennium Trust",
+    amount: 100.00
+  },
+  {
+    id: "6",
+    paymentNo: "9YX6C2N6ZU",
+    name: "tax tax nm",
+    status: "Overdue",
+    sendDate: "10/05/2022",
+    paymentDate: "10/07/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "1234567981 - TEST",
+    type: "Tax",
+    template: "",
+    recipient: "ALABAMA",
+    amount: 234.00
+  },
+  {
+    id: "7",
+    paymentNo: "W7NL745FBW",
+    name: "taxtest",
+    status: "Overdue",
+    sendDate: "10/03/2022",
+    paymentDate: "10/05/2022",
+    companyAccount: "******4019",
+    companyIdentifier: "45454545 - ACH1237",
+    type: "Tax",
+    template: "",
+    recipient: "ALABAMA",
+    amount: 111223.00
+  },
+  {
+    id: "8",
+    paymentNo: "TMQBL95DWR",
+    name: "My SVB",
+    status: "Completed",
+    sendDate: "09/30/2022",
+    paymentDate: "10/04/2022",
+    companyAccount: "******0361",
+    companyIdentifier: "123456 - ACH1234",
+    type: "PPD - Prearranged Payment and Deposit",
+    template: "",
+    recipient: "Scott Thompson",
+    amount: 20000.00
+  }
+];

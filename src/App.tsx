@@ -11,6 +11,7 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import QuickEntry from "./pages/QuickEntry";
 import QuickEntryPreview from "./pages/QuickEntryPreview";
+import PaymentApproval from "./pages/PaymentApproval";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
         <Route path="/payments/new" element={<Payments />} />
         <Route path="/payments/quick-entry" element={<QuickEntry />} />
         <Route path="/payments/quick-entry/preview" element={<QuickEntryPreview />} />
+        <Route path="/payments/approval" element={<PaymentApproval />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/limits" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
