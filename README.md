@@ -1,22 +1,20 @@
-# Welcome to your Lovable project
+# Welcome to your project
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/21d9058f-b25a-4e01-988e-6cade1266768
+**URL**: [https://whatfixsmbc.netlify.app/]
 
 ## How can I edit this code?
 
-There are several ways of editing your application.
+There are several ways to edit your application:
 
-**Use Lovable**
+**Use the project dashboard**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/21d9058f-b25a-4e01-988e-6cade1266768) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
+Visit the project dashboard at the URL above and start prompting. Changes made via the dashboard will be committed automatically to this repo.
 
 **Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in the dashboard.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -30,7 +28,7 @@ git clone <YOUR_GIT_URL>
 cd <YOUR_PROJECT_NAME>
 
 # Step 3: Install the necessary dependencies.
-npm i
+npm install
 
 # Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
@@ -40,7 +38,7 @@ npm run dev
 
 - Navigate to the desired file(s).
 - Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Make your changes and commit them.
 
 **Use GitHub Codespaces**
 
@@ -48,7 +46,7 @@ npm run dev
 - Click on the "Code" button (green button) near the top right.
 - Select the "Codespaces" tab.
 - Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- Edit files directly within the Codespace and commit and push your changes when ready.
 
 ## What technologies are used for this project?
 
@@ -62,12 +60,9 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/21d9058f-b25a-4e01-988e-6cade1266768) and click on Share -> Publish.
+Open the project dashboard and click on **Share → Publish**.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain to this project?
 
-Yes, you can!
+Yes! To connect a domain, navigate to **Project > Settings > Domains** in the dashboard and click **Connect Domain**.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
