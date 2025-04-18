@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ClipboardCheck } from 'lucide-react';
 import { mockPayments } from '@/utils/paymentMockData';
@@ -8,6 +9,7 @@ import { Payment } from '@/types/payment';
 import { PageHeader } from '@/components/layout/PageHeader';
 import Header from '@/components/layout/Header';
 import { Navigation } from '@/components/layout/Navigation';
+import { Button } from '@/components/ui/button'; // Add this import
 import {
   AlertDialog,
   AlertDialogAction,
