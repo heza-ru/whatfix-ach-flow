@@ -9,6 +9,8 @@ import Recipients from "./pages/Recipients";
 import Payments from "./pages/Payments";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import QuickEntry from "./pages/QuickEntry";
+import QuickEntryPreview from "./pages/QuickEntryPreview";
 
 const queryClient = new QueryClient();
 
@@ -23,9 +25,10 @@ const App = () => (
         <Route path="/recipients" element={<Recipients />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/payments/new" element={<Payments />} />
+        <Route path="/payments/quick-entry" element={<QuickEntry />} />
+        <Route path="/payments/quick-entry/preview" element={<QuickEntryPreview />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/limits" element={<Settings />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
