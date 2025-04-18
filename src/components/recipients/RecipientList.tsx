@@ -8,7 +8,7 @@ import {
   Trash2, 
   Check
 } from 'lucide-react';
-import { Recipient } from '@/utils/mockData';
+import { Recipient } from '@/types/recipient';
 import StatusBadge from '../common/StatusBadge';
 import { Button } from '@/components/ui/button';
 
@@ -99,7 +99,7 @@ export const RecipientList: React.FC<RecipientListProps> = ({
                   <div className="font-medium">{recipient.name}</div>
                 </td>
                 <td>
-                  <StatusBadge status={recipient.status} />
+                  <StatusBadge status={recipient.status || 'pending'} />
                 </td>
                 <td>
                   <div className="flex justify-center">
