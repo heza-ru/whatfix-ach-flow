@@ -26,27 +26,30 @@ interface EditUserProps {
   user: User | null;
 }
 
+const defaultFormState = {
+  status: 'active',
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  mobile: '',
+  userId: '',
+  language: 'English (United States)',
+  securityLevel: 'system-admin',
+  approvals: 'none',
+  paymentLimits: 'unlimited',
+  accessSchedule: 'unlimited',
+  userEntitlements: 'full',
+  customApprovalLimit: '',
+  customPaymentLimit: '',
+  customAccessSchedule: ''
+};
+
 const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    status: 'active',
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    mobile: '',
-    userId: '',
-    language: 'English (United States)',
-    securityLevel: 'system-admin',
-    approvals: 'none',
-    paymentLimits: 'unlimited',
-    accessSchedule: 'unlimited',
-    userEntitlements: 'full',
-    customApprovalLimit: '',
-    customPaymentLimit: '',
-    customAccessSchedule: ''
-  });
+  const [formData, setFormData] = useState(defaultFormState);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -56,9 +59,14 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
         lastName: user.lastName,
         userId: user.userId,
         status: user.status,
+        userEntitlements: user.entitlement.toLowerCase(),
+        approvals: user.isApprover ? 'custom' : 'none',
       }));
+    } else {
+      setFormData(defaultFormState);
     }
-  }, [user]);
+    setStep(1);
+  }, [user, open]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -76,29 +84,40 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
     setStep(prev => prev - 1);
   };
 
-  const handleSave = () => {
-    toast({
-      title: "Success",
-      description: "User information has been updated successfully.",
-    });
-    
-    // Reset form and close dialog
+  const resetForm = () => {
     setStep(1);
+    setFormData(defaultFormState);
+    setIsProcessing(false);
+  };
+
+  const handleSave = () => {
+    setIsProcessing(true);
+    
+    // Simulate API call with a timeout
     setTimeout(() => {
+      toast({
+        title: "Success",
+        description: "User information has been updated successfully.",
+      });
+      
+      setIsProcessing(false);
+      resetForm();
       onClose();
-    }, 300);
+    }, 1000);
+  };
+
+  const handleDialogClose = () => {
+    resetForm();
+    onClose();
   };
 
   const progressPercentage = ((step - 1) / 2) * 100;
 
   return (
-    <Dialog open={open} onOpenChange={() => {
-      setStep(1);
-      onClose();
-    }}>
+    <Dialog open={open} onOpenChange={handleDialogClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Edit User</DialogTitle>
+          <DialogTitle>{user ? 'Edit User' : 'Add User'}</DialogTitle>
           <DialogDescription>
             Step {step} of 3
           </DialogDescription>
@@ -194,7 +213,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                 id="userId"
                 value={formData.userId}
                 onChange={(e) => handleInputChange('userId', e.target.value)}
-                readOnly
+                readOnly={!!user}
               />
             </div>
 
@@ -238,7 +257,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                     </TabsList>
                     <TabsContent value="payment" className="space-y-2 pt-2">
                       <div className="flex items-center space-x-2">
-                        <Checkbox id="view-payments" checked />
+                        <Checkbox id="view-payments" defaultChecked />
                         <Label htmlFor="view-payments">View Payments</Label>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -252,7 +271,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                     </TabsContent>
                     <TabsContent value="reporting" className="space-y-2 pt-2">
                       <div className="flex items-center space-x-2">
-                        <Checkbox id="view-reports" checked />
+                        <Checkbox id="view-reports" defaultChecked />
                         <Label htmlFor="view-reports">View Reports</Label>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -324,7 +343,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
             <div className="space-y-2">
               <Label>Security Level</Label>
               <div className="flex items-center space-x-2">
-                <Checkbox id="sysadmin" checked />
+                <Checkbox id="sysadmin" defaultChecked />
                 <Label htmlFor="sysadmin">System Administrator</Label>
               </div>
               <div className="flex items-center space-x-2">
@@ -400,7 +419,7 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
                     />
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Checkbox id="per-payment" checked />
+                    <Checkbox id="per-payment" defaultChecked />
                     <Label htmlFor="per-payment">Per Payment</Label>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -415,18 +434,15 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
 
         <div className="flex justify-end gap-2 mt-6">
           {step > 1 && (
-            <Button variant="outline" onClick={handleBack}>
+            <Button variant="outline" onClick={handleBack} disabled={isProcessing}>
               Back
             </Button>
           )}
-          <Button variant="outline" onClick={() => {
-            setStep(1);
-            onClose();
-          }}>
+          <Button variant="outline" onClick={handleDialogClose} disabled={isProcessing}>
             Cancel
           </Button>
-          <Button onClick={handleNext}>
-            {step === 3 ? 'Save' : 'Next'}
+          <Button onClick={handleNext} disabled={isProcessing}>
+            {isProcessing ? "Processing..." : step === 3 ? 'Save' : 'Next'}
           </Button>
         </div>
       </DialogContent>

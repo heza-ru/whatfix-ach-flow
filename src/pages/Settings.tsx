@@ -22,10 +22,19 @@ interface User {
 const Settings = () => {
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleEditUser = (user: User) => {
     setSelectedUser(user);
     setIsEditUserOpen(true);
+  };
+
+  const handleCloseEditUser = () => {
+    setIsEditUserOpen(false);
+    // Use setTimeout to ensure the dialog is fully closed before resetting the selectedUser
+    setTimeout(() => {
+      setSelectedUser(null);
+    }, 300);
   };
 
   return (
@@ -45,7 +54,12 @@ const Settings = () => {
         <div className="p-6">
           <div className="mb-6 flex justify-between items-center">
             <div className="flex w-[300px]">
-              <Input placeholder="Search users..." className="rounded-r-none" />
+              <Input 
+                placeholder="Search users..." 
+                className="rounded-r-none" 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
               <Button className="rounded-l-none">Search</Button>
             </div>
             
@@ -65,10 +79,7 @@ const Settings = () => {
 
       <EditUser 
         open={isEditUserOpen}
-        onClose={() => {
-          setIsEditUserOpen(false);
-          setSelectedUser(null);
-        }}
+        onClose={handleCloseEditUser}
         user={selectedUser}
       />
     </div>
