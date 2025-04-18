@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,12 +7,23 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 
+interface User {
+  lastName: string;
+  firstName: string;
+  userId: string;
+  entitlement: 'Full' | 'None' | 'Custom';
+  isApprover: boolean;
+  isAdmin: boolean;
+  status: 'active' | 'pending' | 'incomplete' | 'error' | 'approved' | 'rejected' | 'draft' | 'complete';
+}
+
 interface EditUserProps {
   open: boolean;
   onClose: () => void;
+  user: User | null;
 }
 
-const EditUser: React.FC<EditUserProps> = ({ open, onClose }) => {
+const EditUser: React.FC<EditUserProps> = ({ open, onClose, user }) => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -31,6 +41,18 @@ const EditUser: React.FC<EditUserProps> = ({ open, onClose }) => {
     accessSchedule: 'unlimited',
     userEntitlements: 'full'
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userId: user.userId,
+        status: user.status,
+      }));
+    }
+  }, [user]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));

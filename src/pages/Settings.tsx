@@ -9,8 +9,24 @@ import EditUser from '@/components/settings/EditUser';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
+interface User {
+  lastName: string;
+  firstName: string;
+  userId: string;
+  entitlement: 'Full' | 'None' | 'Custom';
+  isApprover: boolean;
+  isAdmin: boolean;
+  status: 'active' | 'pending' | 'incomplete' | 'error' | 'approved' | 'rejected' | 'draft' | 'complete';
+}
+
 const Settings = () => {
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const handleEditUser = (user: User) => {
+    setSelectedUser(user);
+    setIsEditUserOpen(true);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
@@ -35,14 +51,18 @@ const Settings = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow">
-            <UsersTable />
+            <UsersTable onEditUser={handleEditUser} />
           </div>
         </div>
       </main>
 
       <EditUser 
         open={isEditUserOpen}
-        onClose={() => setIsEditUserOpen(false)}
+        onClose={() => {
+          setIsEditUserOpen(false);
+          setSelectedUser(null);
+        }}
+        user={selectedUser}
       />
     </div>
   );

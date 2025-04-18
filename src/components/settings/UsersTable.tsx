@@ -21,7 +21,11 @@ interface User {
   status: 'active' | 'pending' | 'incomplete' | 'error' | 'approved' | 'rejected' | 'draft' | 'complete';
 }
 
-const UsersTable = () => {
+interface UsersTableProps {
+  onEditUser: (user: User) => void;
+}
+
+const UsersTable: React.FC<UsersTableProps> = ({ onEditUser }) => {
   const users: User[] = [
     {
       lastName: '123',
@@ -71,7 +75,9 @@ const UsersTable = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem>View User</DropdownMenuItem>
-                    <DropdownMenuItem>Edit User</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onEditUser(user)}>
+                      Edit User
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Copy to Existing User</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
