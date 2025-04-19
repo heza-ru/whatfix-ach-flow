@@ -454,7 +454,7 @@ const PPDTemplatePage = () => {
           onClick={(e) => e.stopPropagation()}
         >
           <DialogHeader>
-            <DialogTitle className="text-xl bg-[#9b87f5] text-white p-4 -mx-6 -mt-6 mb-4">
+            <DialogTitle className="text-xl bg-bank-primary text-white p-4 -mx-6 -mt-6 mb-4">
               SELECT RECIPIENTS
             </DialogTitle>
           </DialogHeader>
@@ -492,7 +492,7 @@ const PPDTemplatePage = () => {
           
           <div className="overflow-auto flex-1 -mx-6 px-6">
             <Table>
-              <TableHeader className="bg-[#D6BCFA]/20 sticky top-0">
+              <TableHeader className="bg-bank-primary/20 sticky top-0">
                 <TableRow>
                   <TableHead className="w-[40px]"></TableHead>
                   <TableHead>Recipient Name</TableHead>
@@ -551,13 +551,13 @@ const PPDTemplatePage = () => {
               <Button
                 variant="outline"
                 onClick={() => setIsSelectRecipientOpen(false)}
-                className="bg-[#8E9196] text-white border-[#8E9196] hover:bg-[#8E9196]/90 hover:border-[#8E9196]/90 min-w-[100px]"
+                className="bg-bank-primary text-white border-[#8E9196] hover:bg-bank-primary/90 hover:border-[#8E9196]/90 min-w-[100px]"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleDoneSelectingRecipients}
-                className="bg-[#9b87f5] text-white hover:bg-[#7E69AB] min-w-[100px]"
+                className="bg-bank-primary text-white hover:bg-bank-primary min-w-[100px]"
               >
                 <CheckCheck className="mr-2 h-4 w-4" />
                 Done
