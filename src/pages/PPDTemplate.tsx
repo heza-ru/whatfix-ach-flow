@@ -136,7 +136,7 @@ const PPDTemplatePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-background">
       <Header />
       <Navigation />
       
@@ -146,18 +146,18 @@ const PPDTemplatePage = () => {
             <FileText size={36} />
           </div>
           <div>
-            <h1 className="text-2xl font-medium text-gray-800">CREATE PPD TEMPLATE</h1>
-            <p className="text-sm text-gray-500">Use this page to create a new ACH Prearranged Payment and Deposit template.</p>
+            <h1 className="text-2xl font-medium text-text-primary">CREATE PPD TEMPLATE</h1>
+            <p className="text-sm text-text-secondary">Use this page to create a new ACH Prearranged Payment and Deposit template.</p>
           </div>
           <div className="ml-auto">
-            <Button variant="outline" className="bg-white text-gray-700 border-gray-300">
+            <Button variant="outline" className="bg-white text-text-secondary border-neutral-divider">
               Help
             </Button>
           </div>
         </div>
         
         <div className="space-y-6">
-          <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+          <div className="bg-neutral-surface shadow-sm rounded-lg overflow-hidden">
             <div className="bg-bank-primary text-white px-6 py-3 flex justify-between items-center">
               <h2 className="text-lg font-medium">TEMPLATE INFORMATION</h2>
               <div className="text-sm">
@@ -334,8 +334,8 @@ const PPDTemplatePage = () => {
             </div>
           </div>
           
-          <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-            <div className="bg-blue-600 text-white px-6 py-3">
+          <div className="bg-neutral-surface shadow-sm rounded-lg overflow-hidden">
+            <div className="bg-bank-accent text-white px-6 py-3">
               <h2 className="text-lg font-medium">RECIPIENTS</h2>
             </div>
             
