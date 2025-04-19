@@ -18,9 +18,9 @@ interface RecentPaymentsProps {
 const RecentPayments = ({ payments, recipients }: RecentPaymentsProps) => {
   return (
     <Card className="card-transition animate-fade-up" data-testid="recent-payments">
-      <CardHeader className="pb-2 flex flex-row items-center justify-between">
+      <CardHeader className="pb-2 flex flex-row items-center justify-between bg-bank-light-gray">
         <CardTitle>Recent Payments</CardTitle>
-        <Link to="/payments/history" className="text-sm text-bank-primary">
+        <Link to="/payments/history" className="text-sm text-bank-accent hover:underline">
           View All
         </Link>
       </CardHeader>
@@ -39,7 +39,7 @@ const RecentPayments = ({ payments, recipients }: RecentPaymentsProps) => {
             </thead>
             <tbody>
               {payments.map(payment => {
-                // Use 'recipient' property instead of 'recipientId'
+                // Find the recipient by name
                 const recipientName = recipients.find(r => r.name === payment.recipient)?.name || payment.recipient;
                 return (
                   <tr key={payment.id}>

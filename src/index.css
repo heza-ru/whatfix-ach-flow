@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 74 58% 98%;
     --foreground: 33 33% 13%;
 
     --card: 0 0% 100%;
@@ -72,13 +73,13 @@
   }
 
   body {
-    @apply bg-gray-100 text-foreground;
+    @apply bg-neutral-background text-foreground;
   }
 }
 
 @layer components {
   .bank-table th {
-    @apply bg-bank-light-gray text-[#666] font-medium px-4 py-2 text-sm;
+    @apply bg-bank-light-gray text-[#616161] font-medium px-4 py-2 text-sm;
   }
   
   .bank-table td {
@@ -86,7 +87,7 @@
   }
   
   .bank-table tr:nth-child(even) {
-    @apply bg-gray-50;
+    @apply bg-neutral-background;
   }
   
   .tooltip-container {
@@ -119,6 +120,26 @@
 
   .card-transition {
     @apply transition-all duration-300 ease-in-out hover:shadow-lg hover:bg-white/80;
+  }
+  
+  .btn-primary {
+    @apply bg-bank-primary text-white hover:bg-primary-dark transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary hover:bg-secondary-hover text-white transition-colors;
+  }
+  
+  .btn-accent {
+    @apply bg-bank-accent text-white hover:opacity-90 transition-opacity;
+  }
+  
+  .section-header {
+    @apply bg-bank-primary text-white px-6 py-3 flex justify-between items-center;
+  }
+  
+  .section-header-accent {
+    @apply bg-bank-accent text-white px-6 py-3;
   }
 }
 
