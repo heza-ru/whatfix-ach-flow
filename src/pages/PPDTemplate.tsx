@@ -342,12 +342,11 @@ const PPDTemplatePage = () => {
             <div className="p-6">
               <div className="flex flex-wrap gap-2 justify-end mb-4">
                 <Button 
-                  onClick={handleSaveIncomplete}
                   variant="outline" 
-                  className="bg-white text-gray-700 border-gray-300"
+                  className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[120px]"
+                  onClick={() => setIsSelectRecipientOpen(true)}
                 >
-                  <Save size={16} className="mr-1" />
-                  Save Incomplete
+                  Select Recipients
                 </Button>
                 <Button 
                   onClick={handleCreateRecipient}
@@ -419,13 +418,6 @@ const PPDTemplatePage = () => {
               </div>
               
               <div className="flex justify-center mt-6 space-x-4">
-                <Button 
-                  variant="outline" 
-                  className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[120px]"
-                  onClick={() => setIsSelectRecipientOpen(true)}
-                >
-                  Select Recipients
-                </Button>
                 <Button variant="outline" className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[120px]">
                   Cancel
                 </Button>
