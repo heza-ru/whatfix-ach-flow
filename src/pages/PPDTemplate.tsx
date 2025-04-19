@@ -445,10 +445,16 @@ const PPDTemplatePage = () => {
         </div>
       </div>
       
-      <Dialog open={isSelectRecipientOpen} onOpenChange={setIsSelectRecipientOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
+      <Dialog 
+        open={isSelectRecipientOpen} 
+        onOpenChange={() => {}}
+      >
+        <DialogContent 
+          className="max-w-4xl max-h-[90vh] flex flex-col"
+          onClick={(e) => e.stopPropagation()}
+        >
           <DialogHeader>
-            <DialogTitle className="text-xl bg-blue-600 text-white p-4 -mx-6 -mt-6 mb-4">
+            <DialogTitle className="text-xl bg-[#9b87f5] text-white p-4 -mx-6 -mt-6 mb-4">
               SELECT RECIPIENTS
             </DialogTitle>
           </DialogHeader>
@@ -486,7 +492,7 @@ const PPDTemplatePage = () => {
           
           <div className="overflow-auto flex-1 -mx-6 px-6">
             <Table>
-              <TableHeader className="bg-blue-50 sticky top-0">
+              <TableHeader className="bg-[#D6BCFA]/20 sticky top-0">
                 <TableRow>
                   <TableHead className="w-[40px]"></TableHead>
                   <TableHead>Recipient Name</TableHead>
@@ -545,13 +551,13 @@ const PPDTemplatePage = () => {
               <Button
                 variant="outline"
                 onClick={() => setIsSelectRecipientOpen(false)}
-                className="bg-gray-400 text-white border-gray-400 hover:bg-gray-500 hover:border-gray-500 min-w-[100px]"
+                className="bg-[#8E9196] text-white border-[#8E9196] hover:bg-[#8E9196]/90 hover:border-[#8E9196]/90 min-w-[100px]"
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleDoneSelectingRecipients}
-                className="bg-blue-600 text-white hover:bg-blue-700 min-w-[100px]"
+                className="bg-[#9b87f5] text-white hover:bg-[#7E69AB] min-w-[100px]"
               >
                 <CheckCheck className="mr-2 h-4 w-4" />
                 Done
