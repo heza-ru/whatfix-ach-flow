@@ -335,7 +335,7 @@ const PPDTemplatePage = () => {
           </div>
           
           <div className="bg-neutral-surface shadow-sm rounded-lg overflow-hidden">
-            <div className="bg-bank-accent text-white px-6 py-3">
+            <div className="bg-bank-primary text-white px-6 py-3">
               <h2 className="text-lg font-medium">RECIPIENTS</h2>
             </div>
             
@@ -368,7 +368,7 @@ const PPDTemplatePage = () => {
               
               <div className="overflow-x-auto">
                 <Table>
-                  <TableHeader className="bg-blue-50">
+                  <TableHeader className="bg-bank-primary">
                     <TableRow>
                       <TableHead className="w-[250px]">Recipient Name<br/>Recipient ID</TableHead>
                       <TableHead>Bank ID<br/>Bank Name</TableHead>
@@ -433,7 +433,7 @@ const PPDTemplatePage = () => {
                   <Button 
                     type="submit"
                     onClick={() => form.handleSubmit(handleSubmitPPDForm)()}
-                    className="bg-blue-600 text-white hover:bg-blue-700 min-w-[120px]"
+                    className="bg-bank-accent text-white hover:bg-bank-primary min-w-[120px]"
                   >
                     Continue
                     <ArrowRight size={16} className="ml-1" />
