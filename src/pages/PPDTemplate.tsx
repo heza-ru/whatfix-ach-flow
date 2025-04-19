@@ -372,22 +372,22 @@ const PPDTemplatePage = () => {
   <TableRow>
     <TableHead className="w-[250px]">
       Recipient Name<br />
-      <span className="text-sm text-gray-500">Recipient ID</span>
+      <span className="text-xs text-gray-500">Recipient ID</span>
     </TableHead>
     <TableHead>
       Bank ID<br />
-      <span className="text-sm text-gray-500">Bank Name</span>
+      <span className="text-xs text-gray-500">Bank Name</span>
     </TableHead>
     <TableHead>
       Account Number<br />
-      <span className="text-sm text-gray-500">Account Type</span>
+      <span className="text-xs text-gray-500">Account Type</span>
     </TableHead>
     <TableHead>Amount</TableHead>
     <TableHead>CR/DR</TableHead>
     <TableHead>Disc. Data</TableHead>
     <TableHead>
       Status<br />
-      <span className="text-sm text-gray-500">Prenote Expiry</span>
+      <span className="text-xs text-gray-500">Prenote Expiry</span>
     </TableHead>
     <TableHead>Addenda</TableHead>
   </TableRow>
