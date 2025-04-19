@@ -158,7 +158,7 @@ const PPDTemplatePage = () => {
         
         <div className="space-y-6">
           <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-            <div className="bg-blue-600 text-white px-6 py-3 flex justify-between items-center">
+            <div className="bg-bank-primary text-white px-6 py-3 flex justify-between items-center">
               <h2 className="text-lg font-medium">TEMPLATE INFORMATION</h2>
               <div className="text-sm">
                 <span className="text-red-200">*</span> Required Fields
