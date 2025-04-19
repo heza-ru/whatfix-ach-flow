@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Payment } from '@/types/payment';
 import { Recipient } from '@/types/recipient';
+import { StatusBadge } from '@/components/common/StatusBadge';
 
 interface RecentPaymentsProps {
   payments: Payment[];
@@ -38,24 +39,18 @@ const RecentPayments = ({ payments, recipients }: RecentPaymentsProps) => {
             </thead>
             <tbody>
               {payments.map(payment => {
-                const recipient = recipients.find(r => r.id === payment.recipientId);
+                // Use 'recipient' property instead of 'recipientId'
+                const recipientName = recipients.find(r => r.name === payment.recipient)?.name || payment.recipient;
                 return (
                   <tr key={payment.id}>
                     <td>{payment.id}</td>
-                    <td>{recipient?.name || 'Unknown'}</td>
+                    <td>{recipientName}</td>
                     <td>{payment.type}</td>
                     <td>${payment.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                     <td>
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                        ${payment.status === 'approved' ? 'bg-green-100 text-green-800' : 
-                          payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                          payment.status === 'complete' ? 'bg-blue-100 text-blue-800' : 
-                          'bg-gray-100 text-gray-800'}`
-                      }>
-                        {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                      </span>
+                      <StatusBadge status={payment.status} />
                     </td>
-                    <td>{payment.effectiveDate}</td>
+                    <td>{payment.paymentDate}</td>
                   </tr>
                 );
               })}

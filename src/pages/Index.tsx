@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   DollarSign, CreditCard, Users, Settings, Clock, 
@@ -11,20 +12,22 @@ import PaymentStatusChart from '@/components/dashboard/PaymentStatusChart';
 import StatsCards from '@/components/dashboard/StatsCards';
 import RecentPayments from '@/components/dashboard/RecentPayments';
 import QuickActions from '@/components/dashboard/QuickActions';
-import { mockPayments, mockTemplates, mockRecipients } from '@/utils/mockData';
+import { mockPayments as mockDataPayments, mockRecipients as mockDataRecipients } from '@/utils/mockData';
+import { mockPayments } from '@/utils/paymentMockData';
+import { mockRecipients } from '@/utils/recipientMockData';
 
 const Index = () => {
   const [showTour, setShowTour] = useState(false);
 
-  const pendingPayments = mockPayments.filter(p => p.status === 'pending').length;
-  const completedPayments = mockPayments.filter(p => p.status === 'complete').length;
-  const totalTemplates = mockTemplates.length;
-  const totalRecipients = mockRecipients.length;
+  const pendingPayments = mockDataPayments.filter(p => p.status === 'pending').length;
+  const completedPayments = mockDataPayments.filter(p => p.status === 'complete').length;
+  const totalTemplates = mockDataPayments.length;
+  const totalRecipients = mockDataRecipients.length;
 
   const paymentStatusData = [
     { name: 'Pending', value: pendingPayments, color: '#FFB547' },
     { name: 'Completed', value: completedPayments, color: '#1C7C54' },
-    { name: 'Failed', value: mockPayments.filter(p => p.status === 'rejected').length, color: '#D32F2F' }
+    { name: 'Failed', value: mockDataPayments.filter(p => p.status === 'rejected').length, color: '#D32F2F' }
   ];
 
   const paymentTrendData = [
