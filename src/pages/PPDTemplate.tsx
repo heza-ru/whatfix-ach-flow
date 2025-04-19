@@ -368,7 +368,7 @@ const PPDTemplatePage = () => {
               
               <div className="overflow-x-auto">
                 <Table>
-                  <TableHeader className="bg-bank-primary/90">
+                  <TableHeader className="bg-gray-500">
                     <TableRow>
                       <TableHead className="w-[250px]">Recipient Name<br/>Recipient ID</TableHead>
                       <TableHead>Bank ID<br/>Bank Name</TableHead>
