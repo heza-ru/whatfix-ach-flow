@@ -369,17 +369,30 @@ const PPDTemplatePage = () => {
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader className="bg-white-500">
-                    <TableRow>
-                      <TableHead className="w-[250px]">Recipient Name<br/>Recipient ID</TableHead>
-                      <TableHead>Bank ID<br/>Bank Name</TableHead>
-                      <TableHead>Account Number<br/>Account Type</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>CR/DR</TableHead>
-                      <TableHead>Disc. Data</TableHead>
-                      <TableHead>Status<br/>Prenote Expiry</TableHead>
-                      <TableHead>Addenda</TableHead>
-                    </TableRow>
-                  </TableHeader>
+  <TableRow>
+    <TableHead className="w-[250px]">
+      Recipient Name<br />
+      <span className="text-sm text-gray-500">Recipient ID</span>
+    </TableHead>
+    <TableHead>
+      Bank ID<br />
+      <span className="text-sm text-gray-500">Bank Name</span>
+    </TableHead>
+    <TableHead>
+      Account Number<br />
+      <span className="text-sm text-gray-500">Account Type</span>
+    </TableHead>
+    <TableHead>Amount</TableHead>
+    <TableHead>CR/DR</TableHead>
+    <TableHead>Disc. Data</TableHead>
+    <TableHead>
+      Status<br />
+      <span className="text-sm text-gray-500">Prenote Expiry</span>
+    </TableHead>
+    <TableHead>Addenda</TableHead>
+  </TableRow>
+</TableHeader>
+
                   <TableBody>
                     {selectedRecipients.length > 0 ? (
                       selectedRecipients.map((recipient) => (
