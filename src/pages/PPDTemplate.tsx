@@ -368,7 +368,7 @@ const PPDTemplatePage = () => {
               
               <div className="overflow-x-auto">
                 <Table>
-                  <TableHeader className="bg-gray-500">
+                  <TableHeader className="bg-white-500">
                     <TableRow>
                       <TableHead className="w-[250px]">Recipient Name<br/>Recipient ID</TableHead>
                       <TableHead>Bank ID<br/>Bank Name</TableHead>
@@ -450,11 +450,11 @@ const PPDTemplatePage = () => {
         onOpenChange={() => {}}
       >
         <DialogContent 
-          className="max-w-4xl max-h-[90vh] flex flex-col"
+          className="max-w-4xl max-h-[90vh] flex flex-col rounded"
           onClick={(e) => e.stopPropagation()}
         >
           <DialogHeader>
-            <DialogTitle className="text-xl bg-bank-primary text-white p-4 -mx-6 -mt-6 mb-4">
+            <DialogTitle className="text-xl bg-bank-primary text-white p-4 -mx-6 -mt-6 mb-4 rounded">
               SELECT RECIPIENTS
             </DialogTitle>
           </DialogHeader>
